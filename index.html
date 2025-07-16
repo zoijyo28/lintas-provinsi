@@ -63,38 +63,32 @@
     <!-- Babel CDN (for JSX transformation) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Firebase SDKs -->
-    <!-- Menggunakan versi kompatibilitas untuk kemudahan di lingkungan CDN -->
+    <!-- Firebase SDKs (hanya jika Anda berencana menambahkan fitur lain yang memerlukan Firestore di masa depan) -->
+    <!-- Jika tidak ada kebutuhan Firestore sama sekali, baris ini bisa dihapus -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
     <script type="text/babel">
-        // Pastikan variabel global __firebase_config dan __app_id didefinisikan di lingkungan Canvas
-        // Untuk menjalankan di luar Canvas, Anda perlu mengganti ini dengan nilai nyata atau placeholder
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "AIzaSyBoo1i_NJMdZ09xIDW52zlv8IBe3R7W2wo", // Ganti dengan API Key Firebase Anda
-            authDomain: "assesment-p3k.firebaseapp.com", // Ganti dengan Auth Domain Anda
-            projectId: "assesment-p3k", // Ganti dengan Project ID Anda
-            storageBucket: "assesment-p3k.firebasestorage.app", // Ganti dengan Storage Bucket Anda
-            messagingSenderId: "633237172220", // Ganti dengan Sender ID Anda
-            appId: "1:633237172220:web:1f3a76e3a0b0c80e6c8c79", // Ganti dengan App ID Anda
-            measurementId: "G-47EJEG82B5" // Tambahkan measurementId jika ada
-        };
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'assesment-p3k'; // Menggunakan Project ID sebagai appId
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        // Konfigurasi Firebase tidak lagi diperlukan karena fitur autentikasi dan penyimpanan data pengguna telah dihapus.
+        // Variabel global __firebase_config dan __app_id juga tidak lagi digunakan.
 
-
-        // Inisialisasi Firebase di luar komponen React
-        let app, db, auth;
+        // Inisialisasi Firebase hanya untuk Firestore jika diperlukan di masa depan.
+        // Jika tidak ada kebutuhan Firestore sama sekali, bagian ini bisa dihapus.
+        let app, db;
         try {
-            // Menggunakan sintaks modular Firebase SDK v9+
-            app = firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth(); // Menggunakan compat layer untuk auth
-            db = firebase.firestore(); // Menggunakan compat layer untuk firestore
+            // Konfigurasi dummy atau kosong jika tidak ada Firebase Auth yang digunakan
+            const dummyFirebaseConfig = {
+                apiKey: "YOUR_API_KEY",
+                authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+                projectId: "YOUR_PROJECT_ID",
+                storageBucket: "YOUR_PROJECT_ID.appspot.com",
+                messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+                appId: "YOUR_APP_ID"
+            };
+            app = firebase.initializeApp(dummyFirebaseConfig);
+            db = firebase.firestore(); // Tetap inisialisasi Firestore jika ada kebutuhan di masa depan
         } catch (e) {
-            console.error("Error initializing Firebase:", e);
-            // Handle error, e.g., display a message to the user
+            console.warn("Firebase initialization warning (Auth and Firestore not used without login):", e);
         }
 
         // Data soal untuk 9 kompetensi berdasarkan PermenPAN-RB No. 38 Tahun 2017 (Manajerial & Sosial Kultural)
@@ -986,13 +980,13 @@
             'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pengadaan tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pencadangan Tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Konsolidasi Tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pendayagunaan ekonomi Pertanahan',
             'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Merancang Desain Survei', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Penyusunan Sistem Pengendalian', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Penertiban P4T', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Pengendalian Pertanahan',
             'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Mediasi Pertanahan', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Sengketa Pertanahan', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Pencegahan dan Penanganan Konflik Tanah', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Perkara',
-            'SDM DAN KEPEGAWAIAN - Analisis Jabatan', 'SDM DAN KEPEGAWAIAN - Manajemen Kinerja Pegawai', 'SDM DAN KEPEGAWAIAN - Manajemen Karir', 'SDM DAN KEPEGAWAIAN - Manajemen Kompetensi',
+            'SDM DAN KEPEGAWAIAN - Analisis Jabatan', 'SDM DAN KEPEGAWAIAN - Manajemen Kinerja Pegawai', 'SDM DAN KEPEGAWAIAN - Pencapaian Kinerja', 'SDM DAN KEPEGAWAIAN - Manajemen Karir', 'SDM DAN KEPEGAWAIAN - Manajemen Kompetensi',
             'KEUANGAN & BMN - Pengelolaan PNBP', 'KEUANGAN & BMN - Pengelolaan Anggaran dan Belanja', 'KEUANGAN & BMN - Laporan Keuangan dan Laporan Pendapatan Hibah Langsung', 'KEUANGAN & BMN - Analisis dan Evaluasi Laporan Keuangan', 'KEUANGAN & BMN - Pengelolaan BMN',
             'PERENCANAAN - Perencanaan Program dan Anggaran', 'PERENCANAAN - Pengendalian dan Evaluasi Program & Anggaran'
         ];
 
         function App() {
-            // State untuk mengontrol tampilan (intro, test, results, history)
+            // State untuk mengontrol tampilan (intro, test, results)
             const [currentScreen, setCurrentScreen] = React.useState('intro');
             // State untuk menyimpan daftar soal yang sedang diujikan
             const [quizQuestions, setQuizQuestions] = React.useState([]);
@@ -1003,128 +997,13 @@
             // State untuk melacak soal yang sedang ditampilkan
             const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
 
-            // State untuk Firebase
-            const [user, setUser] = React.useState(null); // Objek user dari Firebase Auth
-            const [userId, setUserId] = React.useState(null); // UID pengguna
-            const [isAuthReady, setIsAuthReady] = React.useState(false); // Menandakan apakah otentikasi siap
-            const [historyResults, setHistoryResults] = React.useState([]); // Riwayat hasil tes
-            const [loadingHistory, setLoadingHistory] = React.useState(false); // Status loading riwayat
-            const [message, setMessage] = React.useState(''); // Pesan notifikasi
-            const [messageType, setMessageType] = React.useState(''); // Tipe pesan (success, error, info)
-
-            // New state for test mode selection
+            // State untuk mode tes yang dipilih
             const [selectedTestMode, setSelectedTestMode] = React.useState('manajerial'); // Default mode
 
-            // Fungsi untuk menampilkan pesan notifikasi
+            // Fungsi untuk menampilkan pesan notifikasi (sekarang hanya untuk informasi umum)
             const showMessage = (msg, type = 'info') => {
-                setMessage(msg);
-                setMessageType(type);
-                setTimeout(() => {
-                    setMessage('');
-                    setMessageType('');
-                }, 5000); // Pesan hilang setelah 5 detik
-            };
-
-            // Effect untuk menangani hasil redirect Google Sign-In
-            React.useEffect(() => {
-                if (!auth) return;
-
-                // Log untuk debugging lingkungan
-                console.log("Current protocol:", location.protocol);
-                console.log("localStorage enabled:", typeof localStorage !== 'undefined');
-
-
-                auth.getRedirectResult().then((result) => {
-                    if (result.user) {
-                        setUser(result.user);
-                        setUserId(result.user.uid);
-                        showMessage(`Selamat datang kembali, ${result.user.displayName || result.user.email || result.user.uid}!`, 'success');
-                    }
-                }).catch((error) => {
-                    console.error("Error during Google Sign-In redirect:", error);
-                    showMessage(`Gagal masuk dengan Google: ${error.message}. Ini mungkin karena batasan lingkungan (misalnya, di dalam iframe atau protokol file://).`, 'error');
-                });
-            }, [auth]); // Hanya bergantung pada 'auth' agar berjalan sekali setelah auth siap
-
-            // Inisialisasi Firebase dan pantau status otentikasi
-            React.useEffect(() => {
-                if (!auth) {
-                    showMessage('Firebase Auth tidak terinisialisasi. Pastikan konfigurasi Firebase sudah benar.', 'error');
-                    setIsAuthReady(true);
-                    return;
-                }
-
-                const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-                    if (currentUser) {
-                        setUser(currentUser);
-                        setUserId(currentUser.uid);
-                        // Pesan selamat datang hanya jika belum diatur oleh getRedirectResult (untuk menghindari duplikasi)
-                        // dan jika pengguna bukan anonim (sudah login dengan Google/email)
-                        if (!currentUser.isAnonymous && !user) {
-                            showMessage(`Selamat datang, ${currentUser.displayName || currentUser.email || currentUser.uid}!`, 'success');
-                        }
-                    } else {
-                        setUser(null);
-                        setUserId(null);
-                        // Jika tidak ada token awal, coba login anonim
-                        if (!initialAuthToken) {
-                            try {
-                                await auth.signInAnonymously();
-                                showMessage('Anda masuk secara anonim.', 'info');
-                            } catch (error) {
-                                console.error("Error signing in anonymously:", error);
-                                showMessage('Gagal masuk secara anonim. Ini mungkin karena batasan lingkungan (misalnya, di dalam iframe atau protokol file://). Silakan coba buka aplikasi ini di tab browser baru.', 'error');
-                            }
-                        }
-                    }
-                    setIsAuthReady(true);
-                });
-
-                // Coba login dengan token awal jika tersedia
-                if (initialAuthToken && auth && !auth.currentUser) {
-                    auth.signInWithCustomToken(initialAuthToken).catch(error => {
-                        console.error("Error signing in with custom token:", error);
-                        showMessage('Gagal masuk dengan token awal. Silakan coba login Google.', 'error');
-                    });
-                }
-
-                return () => unsubscribe(); // Cleanup listener
-            }, [auth, initialAuthToken]); // 'user' dihapus dari dependency array untuk onAuthStateChanged
-
-            // Fungsi untuk login dengan Google
-            const signInWithGoogle = async () => {
-                if (!auth) {
-                    showMessage('Firebase Auth tidak terinisialisasi.', 'error');
-                    return;
-                }
-                try {
-                    const provider = new firebase.auth.GoogleAuthProvider();
-                    // Menggunakan signInWithRedirect sebagai ganti signInWithPopup
-                    await auth.signInWithRedirect(provider);
-                    // Setelah redirect, kode di sini tidak akan langsung dieksekusi
-                    // Hasil akan ditangani oleh getRedirectResult() saat halaman dimuat kembali
-                } catch (error) {
-                    console.error("Error signing in with Google:", error);
-                    showMessage(`Gagal masuk dengan Google: ${error.message}. Ini mungkin karena batasan lingkungan (misalnya, di dalam iframe atau protokol file://).`, 'error');
-                }
-            };
-
-            // Fungsi untuk logout
-            const handleSignOut = async () => {
-                if (!auth) {
-                    showMessage('Firebase Auth tidak terinisialisasi.', 'error');
-                    return;
-                }
-                try {
-                    await auth.signOut();
-                    setUser(null);
-                    setUserId(null);
-                    showMessage('Berhasil keluar.', 'info');
-                    setCurrentScreen('intro'); // Kembali ke intro setelah logout
-                } catch (error) {
-                    console.error("Error signing out:", error);
-                    showMessage(`Gagal keluar: ${error.message}`, 'error');
-                }
+                // Implementasi pesan notifikasi sederhana (misalnya, console.log atau elemen UI sementara)
+                console.log(`Pesan ${type}: ${msg}`);
             };
 
             // Fungsi untuk menghasilkan soal secara otomatis berdasarkan mode yang dipilih
@@ -1135,7 +1014,7 @@
 
                 competenciesToUse.forEach(comp => {
                     const compQuestions = questionsToUse.filter(q => q.competency === comp);
-                    // Ensure we don't try to slice more questions than available
+                    // Pastikan tidak mencoba mengambil lebih banyak soal dari yang tersedia
                     const numToTake = Math.min(numPerCompetency, compQuestions.length);
                     const shuffled = [...compQuestions].sort(() => 0.5 - Math.random());
                     generated = generated.concat(shuffled.slice(0, numToTake));
@@ -1155,7 +1034,7 @@
                 }));
             };
 
-            // Fungsi untuk menghitung skor dan menyimpan hasil ke Firestore
+            // Fungsi untuk menghitung skor
             const calculateResults = async () => {
                 const results = {};
                 let totalScore = 0;
@@ -1185,49 +1064,12 @@
                     competencyScores: results,
                     totalScore,
                     maxPossibleTotalScore,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp() // Gunakan timestamp server
+                    timestamp: new Date().toISOString() // Gunakan timestamp lokal karena tidak ada server Firebase
                 };
 
                 setQuizResults(finalResults);
                 setCurrentScreen('results');
-
-                // Simpan hasil ke Firestore jika user terautentikasi
-                if (userId && db) {
-                    try {
-                        const quizResultsCollectionRef = db.collection(`artifacts/${appId}/users/${userId}/quizResults`);
-                        await quizResultsCollectionRef.add(finalResults);
-                        showMessage('Hasil tes berhasil disimpan!', 'success');
-                    } catch (error) {
-                        console.error("Error saving quiz results to Firestore:", error);
-                        showMessage(`Gagal menyimpan hasil tes: ${error.message}`, 'error');
-                    }
-                } else {
-                    showMessage('Anda belum login, hasil tes tidak disimpan.', 'info');
-                }
-            };
-
-            // Fungsi untuk mengambil riwayat hasil tes dari Firestore
-            const fetchHistory = async () => {
-                if (!userId || !db) {
-                    showMessage('Silakan login untuk melihat riwayat tes.', 'info');
-                    return;
-                }
-                setLoadingHistory(true);
-                try {
-                    const quizResultsCollectionRef = db.collection(`artifacts/${appId}/users/${userId}/quizResults`);
-                    // Mengambil data dan mengurutkan berdasarkan timestamp terbaru
-                    const q = quizResultsCollectionRef.orderBy('timestamp', 'desc');
-                    const querySnapshot = await q.get();
-                    const history = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setHistoryResults(history);
-                    setCurrentScreen('history');
-                    showMessage('Riwayat tes berhasil dimuat.', 'success');
-                } catch (error) {
-                    console.error("Error fetching history from Firestore:", error);
-                    showMessage(`Gagal memuat riwayat tes: ${error.message}`, 'error');
-                } finally {
-                    setLoadingHistory(false);
-                }
+                showMessage('Hasil tes telah dihitung. Hasil tidak disimpan secara permanen tanpa login.', 'info');
             };
 
             // Komponen untuk layar intro
@@ -1280,38 +1122,12 @@
                             )}
                         </div>
 
-                        {isAuthReady && !user ? (
-                            <>
-                                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md relative mb-6 font-bold text-lg" role="alert">
-                                    <span className="block sm:inline ml-2">
-                                        PENTING: Jika Anda mengalami masalah saat login di sini (misalnya di Google Sites atau dari file lokal),
-                                        silakan <a href={window.location.href} target="_blank" rel="noopener noreferrer" className="font-semibold underline text-red-800 hover:text-red-900">KLIK DI SINI untuk membuka aplikasi ini di tab browser baru</a>.
-                                        Ini akan membantu mengatasi batasan keamanan browser untuk login.
-                                    </span>
-                                </div>
-                                <button
-                                    onClick={signInWithGoogle}
-                                    className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                                >
-                                    Masuk dengan Google
-                                </button>
-                            </>
-                        ) : (
-                            <button
-                                onClick={() => generateQuestions(selectedTestMode === 'manajerial' ? 5 : 2)} // Mengambil 5 soal per kompetensi manajerial, 2 soal per sub-kompetensi teknis
-                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300"
-                            >
-                                Mulai Tes {selectedTestMode === 'manajerial' ? 'Manajerial' : 'Teknis'}
-                            </button>
-                        )}
-                        {isAuthReady && user && (
-                            <button
-                                onClick={fetchHistory}
-                                className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-300 ml-4"
-                            >
-                                Lihat Riwayat Tes
-                            </button>
-                        )}
+                        <button
+                            onClick={() => generateQuestions(selectedTestMode === 'manajerial' ? 5 : 2)} // Mengambil 5 soal per kompetensi manajerial, 2 soal per sub-kompetensi teknis
+                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300"
+                        >
+                            Mulai Tes {selectedTestMode === 'manajerial' ? 'Manajerial' : 'Teknis'}
+                        </button>
                     </div>
                 </div>
             );
@@ -1402,7 +1218,8 @@
                 }
 
                 const { competencyScores, totalScore, maxPossibleTotalScore, timestamp, testMode } = quizResults;
-                const formattedDate = timestamp ? new Date(timestamp.seconds * 1000).toLocaleString() : 'N/A';
+                const formattedDate = timestamp ? new Date(timestamp).toLocaleString() : 'N/A'; // Menggunakan timestamp lokal
+
                 const competenciesToDisplay = testMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
 
 
@@ -1473,12 +1290,6 @@
                                     Buat Soal Baru & Mulai Tes
                                 </button>
                                 <button
-                                    onClick={fetchHistory}
-                                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-300 mr-4"
-                                >
-                                    Lihat Riwayat Tes
-                                </button>
-                                <button
                                     onClick={() => setCurrentScreen('intro')}
                                     className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-gray-300"
                                 >
@@ -1490,134 +1301,16 @@
                 );
             };
 
-            // Komponen untuk layar riwayat
-            const HistoryScreen = () => {
-                if (loadingHistory) {
-                    return (
-                        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-                            <div className="text-xl font-semibold text-gray-700">Memuat riwayat tes...</div>
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mt-4"></div>
-                        </div>
-                    );
-                }
-
-                if (historyResults.length === 0) {
-                    return (
-                        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-                            <div className="bg-white p-8 rounded-xl shadow-2xl text-center max-w-2xl w-full">
-                                <h2 className="text-3xl font-bold text-gray-800 mb-4">Riwayat Tes Anda</h2>
-                                <p className="text-lg text-gray-600 mb-6">Belum ada riwayat tes yang tersimpan.</p>
-                                <button
-                                    onClick={() => setCurrentScreen('intro')}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                                >
-                                    Kembali ke Beranda
-                                </button>
-                            </div>
-                        </div>
-                    );
-                }
-
-                return (
-                    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-                        <div className="bg-white p-8 rounded-xl shadow-2xl max-w-4xl w-full my-8">
-                            <h1 className="text-4xl font-extrabold text-gray-800 mb-6 text-center">Riwayat Tes Anda</h1>
-                            <p className="text-md text-gray-600 mb-8 text-center">
-                                Berikut adalah daftar hasil tes Anda sebelumnya, diurutkan dari yang terbaru.
-                            </p>
-
-                            <div className="space-y-6">
-                                {historyResults.map((result, index) => {
-                                    const competenciesToDisplay = result.testMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
-                                    return (
-                                        <div key={result.id} className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200">
-                                            <div className="flex justify-between items-center mb-4">
-                                                <h2 className="text-xl font-bold text-gray-800">
-                                                    Tes #{historyResults.length - index} ({result.testMode === 'manajerial' ? 'Manajerial & Sosial Kultural' : 'Teknis'})
-                                                </h2>
-                                                <span className="text-sm text-gray-500">
-                                                    {result.timestamp ? new Date(result.timestamp.seconds * 1000).toLocaleString() : 'Tanggal tidak tersedia'}
-                                                </span>
-                                            </div>
-                                            <p className="text-lg text-gray-700 mb-4">
-                                                Total Skor: <span className="font-bold text-green-700">{result.totalScore}</span> dari{' '}
-                                                <span className="font-bold">{result.maxPossibleTotalScore}</span>
-                                            </p>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                                {competenciesToDisplay.map(comp => {
-                                                    const data = result.competencyScores[comp];
-                                                    if (!data) return null;
-                                                    const percentage = data.maxScore > 0 ? (data.score / data.maxScore) * 100 : 0;
-                                                    return (
-                                                        <div key={comp} className="bg-white p-4 rounded-lg border border-gray-200">
-                                                            <h4 className="text-md font-semibold text-gray-800">{comp}</h4>
-                                                            <p className="text-sm text-gray-600">
-                                                                Skor: {data.score}/{data.maxScore} ({percentage.toFixed(0)}%)
-                                                            </p>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-
-                            <div className="flex justify-center mt-8">
-                                <button
-                                    onClick={() => setCurrentScreen('intro')}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                                >
-                                    Kembali ke Beranda
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                );
-            };
+            // Komponen untuk layar riwayat dihilangkan karena tidak ada login
+            // const HistoryScreen = () => { ... };
 
             // Layout utama aplikasi dengan header dan pesan notifikasi
             return (
                 <div className="font-sans">
-                    {/* Header */}
-                    <header className="bg-gray-800 text-white p-4 shadow-md flex justify-between items-center">
+                    {/* Header disederhanakan */}
+                    <header className="bg-gray-800 text-white p-4 shadow-md flex justify-center items-center">
                         <h1 className="text-2xl font-bold">Kuesioner Kompetensi</h1>
-                        <div className="flex items-center space-x-4">
-                            {isAuthReady && user && (
-                                <>
-                                    <span className="text-sm">
-                                        Pengguna: <span className="font-semibold">{user.displayName || user.email || userId}</span>
-                                        {userId && <span className="ml-2 text-xs text-gray-400">(ID: {userId})</span>}
-                                    </span>
-                                    <button
-                                        onClick={handleSignOut}
-                                        className="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out"
-                                    >
-                                        Keluar
-                                    </button>
-                                </>
-                            )}
-                            {isAuthReady && !user && (
-                                <button
-                                    onClick={signInWithGoogle}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out"
-                                >
-                                    Masuk
-                                </button>
-                            )}
-                        </div>
                     </header>
-
-                    {/* Message Box */}
-                    {message && (
-                        <div className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50
-                            ${messageType === 'success' ? 'bg-green-500 text-white' : ''}
-                            ${messageType === 'error' ? 'bg-red-500 text-white' : ''}
-                            ${messageType === 'info' ? 'bg-blue-500 text-white' : ''}
-                        `}>
-                            {message}
-                        </div>
-                    )}
 
                     {/* Konten utama berdasarkan screen */}
                     {(() => {
@@ -1628,8 +1321,7 @@
                                 return <TestScreen />;
                             case 'results':
                                 return <ResultScreen />;
-                            case 'history':
-                                return <HistoryScreen />;
+                            // case 'history': return <HistoryScreen />; // Dihilangkan
                             default:
                                 return <IntroScreen />;
                         }
