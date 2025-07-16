@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes Kompetensi ATR/BPN</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        /* Custom styles for form-radio to match Tailwind's default input styling */
+        .form-radio {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            display: inline-block;
+            vertical-align: middle;
+            background-origin: border-box;
+            user-select: none;
+            flex-shrink: 0;
+            border-radius: 9999px; /* Full rounded for radio */
+            border-width: 1px;
+            border-color: #D1D5DB; /* gray-300 */
+            height: 1.25rem; /* h-5 */
+            width: 1.25rem; /* w-5 */
+            color: #2563EB; /* blue-600 for checked state */
+            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .form-radio:checked {
+            background-color: currentColor;
+            border-color: currentColor;
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3csvg%3e");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .form-radio:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* blue-500 with opacity */
+        }
+        /* Specific color for purple radio button */
+        .form-radio.text-purple-600:checked {
+            color: #9333EA; /* purple-600 */
+        }
+        .form-radio.text-purple-600:focus {
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.5); /* purple-500 with opacity */
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- React CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel CDN (for JSX transformation) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Firebase SDKs -->
+    <!-- Menggunakan versi kompatibilitas untuk kemudahan di lingkungan CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script type="text/babel">
+        // Pastikan variabel global __firebase_config dan __app_id didefinisikan di lingkungan Canvas
+        // Untuk menjalankan di luar Canvas, Anda perlu mengganti ini dengan nilai nyata atau placeholder
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyBoo1i_NJMdZ09xIDW52zlv8IBe3R7W2wo", // Ganti dengan API Key Firebase Anda
+            authDomain: "assesment-p3k.firebaseapp.com", // Ganti dengan Auth Domain Anda
+            projectId: "assesment-p3k", // Ganti dengan Project ID Anda
+            storageBucket: "assesment-p3k.firebasestorage.app", // Ganti dengan Storage Bucket Anda
+            messagingSenderId: "633237172220", // Ganti dengan Sender ID Anda
+            appId: "1:633237172220:web:1f3a76e3a0b0c80e6c8c79", // Ganti dengan App ID Anda
+            measurementId: "G-47EJEG82B5" // Tambahkan measurementId jika ada
+        };
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'assesment-p3k'; // Menggunakan Project ID sebagai appId
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+
+        // Inisialisasi Firebase di luar komponen React
+        let app, db, auth;
+        try {
+            // Menggunakan sintaks modular Firebase SDK v9+
+            app = firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth(); // Menggunakan compat layer untuk auth
+            db = firebase.firestore(); // Menggunakan compat layer untuk firestore
+        } catch (e) {
+            console.error("Error initializing Firebase:", e);
+            // Handle error, e.g., display a message to the user
+        }
+
+        // Data soal untuk 9 kompetensi berdasarkan PermenPAN-RB No. 38 Tahun 2017 (Manajerial & Sosial Kultural)
+        const allQuestions = [
+            // 1. Integritas
+            {
+                id: 'int1', competency: 'Integritas', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda menemukan sebuah dompet berisi sejumlah uang dan identitas pemilik di area kantor. Apa yang akan Anda lakukan?',
+                options: [
+                    { text: 'Mengambil uangnya dan membuang dompetnya.', score: 1 },
+                    { text: 'Mengambil uangnya dan mengembalikan dompetnya tanpa uang.', score: 2 },
+                    { text: 'Mengembalikan dompet beserta isinya kepada pemilik tanpa memberitahu siapa pun.', score: 3 },
+                    { text: 'Segera melaporkan temuan tersebut kepada atasan atau bagian keamanan dan mengembalikan dompet beserta isinya kepada pemilik melalui prosedur yang berlaku.', score: 4 }
+                ]
+            },
+            {
+                id: 'int2', competency: 'Integritas', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Dalam sebuah proyek, Anda diminta untuk memanipulasi data agar laporan terlihat lebih baik. Apa respon Anda?',
+                options: [
+                    { text: 'Melakukan manipulasi data sesuai permintaan untuk menghindari konflik.', score: 1 },
+                    { text: 'Mencoba memanipulasi data seminimal mungkin agar tidak terlalu mencolok.', score: 2 },
+                    { text: 'Menolak permintaan tersebut dan menjelaskan pentingnya data yang akurat, tetapi tetap mencari cara lain untuk "mempercantik" laporan secara etis.', score: 3 },
+                    { text: 'Menolak secara tegas permintaan tersebut dan menjelaskan konsekuensi etis serta hukum dari manipulasi data, serta bersikeras untuk menyajikan data yang sebenarnya.', score: 4 }
+                ]
+            },
+            {
+                id: 'int3', competency: 'Integritas', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda menerima hadiah dari vendor yang sedang dalam proses tender. Apa yang akan Anda lakukan?',
+                options: [
+                    { text: 'Menerima hadiah tersebut karena tidak ada yang tahu.', score: 1 },
+                    { text: 'Menerima hadiah, tetapi tidak memengaruhi keputusan tender.', score: 2 },
+                    { text: 'Menolak hadiah tersebut secara halus dan menjelaskan kebijakan perusahaan.', score: 3 },
+                    { text: 'Menolak hadiah tersebut secara tegas, melaporkan kepada atasan, dan memastikan tidak ada konflik kepentingan.', score: 4 }
+                ]
+            },
+            {
+                id: 'int4', competency: 'Integritas', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda melihat rekan kerja menggunakan fasilitas kantor untuk kepentingan pribadi secara berlebihan. Apa tindakan Anda?',
+                options: [
+                    { text: 'Mendiamkan saja karena bukan urusan Anda.', score: 1 },
+                    { text: 'Menegur secara tidak langsung atau memberi kode.', score: 2 },
+                    { text: 'Mengingatkan rekan kerja secara pribadi tentang aturan penggunaan fasilitas kantor.', score: 3 },
+                    { text: 'Melaporkan kepada atasan jika perilaku tersebut terus berlanjut dan merugikan kantor.', score: 4 }
+                ]
+            },
+            {
+                id: 'int5', competency: 'Integritas', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda diberi informasi rahasia terkait kebijakan baru yang belum diumumkan. Apa yang Anda lakukan?',
+                options: [
+                    { text: 'Membagikan informasi tersebut kepada teman dekat untuk mencari masukan.', score: 1 },
+                    { text: 'Menggunakan informasi tersebut untuk keuntungan pribadi atau kelompok.', score: 2 },
+                    { text: 'Menjaga kerahasiaan informasi tersebut, tetapi memberikan petunjuk samar kepada rekan kerja.', score: 3 },
+                    { text: 'Menjaga kerahasiaan informasi tersebut sepenuhnya dan tidak membocorkannya kepada siapa pun hingga pengumuman resmi.', score: 4 }
+                ]
+            },
+
+            // 2. Kerjasama
+            {
+                id: 'ker1', competency: 'Kerjasama', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Dalam tim, ada anggota yang kurang berkontribusi. Bagaimana Anda menyikapinya?',
+                options: [
+                    { text: 'Mengerjakan bagiannya sendiri tanpa melibatkan dia.', score: 1 },
+                    { text: 'Mengeluh kepada anggota tim lain tentang kurangnya kontribusi.', score: 2 },
+                    { text: 'Mendekati anggota tersebut secara pribadi untuk menawarkan bantuan atau menanyakan kendala yang dihadapi.', score: 3 },
+                    { text: 'Mengajak anggota tim untuk berdiskusi bersama, mencari solusi kolaboratif, dan mendistribusikan ulang tugas jika perlu.', score: 4 }
+                ]
+            },
+            {
+                id: 'ker2', competency: 'Kerjasama', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Tim Anda menghadapi tenggat waktu yang ketat. Apa peran Anda?',
+                options: [
+                    { text: 'Fokus pada tugas pribadi dan berharap orang lain menyelesaikan bagian mereka.', score: 1 },
+                    { text: 'Menyelesaikan tugas pribadi secepatnya dan menunggu instruksi lebih lanjut.', score: 2 },
+                    { text: 'Menyelesaikan tugas pribadi dan menawarkan bantuan kepada anggota tim lain yang kesulitan.', score: 3 },
+                    { text: 'Mengidentifikasi area yang membutuhkan bantuan, proaktif menawarkan dukungan, dan memastikan koordinasi yang efektif antar anggota tim.', score: 4 }
+                ]
+            },
+            {
+                id: 'ker3', competency: 'Kerjasama', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Ada konflik antar anggota tim. Apa yang Anda lakukan?',
+                options: [
+                    { text: 'Menghindari konflik dan berharap masalah selesai sendiri.', score: 1 },
+                    { text: 'Memihak salah satu pihak dan mendukung argumennya.', score: 2 },
+                    { text: 'Mencoba menengahi secara informal, tetapi tidak terlalu dalam.', score: 3 },
+                    { text: 'Menjadi fasilitator untuk mediasi, mendorong komunikasi terbuka, dan membantu mencari solusi yang menguntungkan semua pihak.', score: 4 }
+                ]
+            },
+            {
+                id: 'ker4', competency: 'Kerjasama', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda ditugaskan dalam tim lintas fungsi. Bagaimana Anda beradaptasi?',
+                options: [
+                    { text: 'Fokus pada tugas Anda sendiri dan meminimalkan interaksi dengan anggota dari fungsi lain.', score: 1 },
+                    { text: 'Berinteraksi hanya jika diperlukan dan menjaga jarak.', score: 2 },
+                    { text: 'Berusaha memahami perspektif fungsi lain dan mencari titik temu.', score: 3 },
+                    { text: 'Secara proaktif menjalin komunikasi, berbagi pengetahuan, dan mencari sinergi untuk mencapai tujuan bersama yang lebih besar.', score: 4 }
+                ]
+            },
+            {
+                id: 'ker5', competency: 'Kerjasama', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Tim Anda merayakan keberhasilan. Bagaimana Anda berkontribusi?',
+                options: [
+                    { text: 'Menganggapnya sebagai hasil kerja keras pribadi.', score: 1 },
+                    { text: 'Hanya ikut merayakan tanpa banyak partisipasi.', score: 2 },
+                    { text: 'Mengucapkan selamat kepada anggota tim secara umum.', score: 3 },
+                    { text: 'Mengakui kontribusi setiap anggota tim, merayakan bersama, dan memperkuat rasa kebersamaan.', score: 4 }
+                ]
+            },
+
+            // 3. Komunikasi
+            {
+                id: 'kom1', competency: 'Komunikasi', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda perlu menyampaikan informasi penting kepada rekan kerja yang sulit diajak bicara. Bagaimana pendekatan Anda?',
+                options: [
+                    { text: 'Mengirim email singkat dan berharap dia membacanya.', score: 1 },
+                    { text: 'Meminta orang lain untuk menyampaikan pesan tersebut.', score: 2 },
+                    { text: 'Mencari waktu yang tepat untuk berbicara langsung, tetapi tetap singkat.', score: 3 },
+                    { text: 'Mempersiapkan poin-poin penting, memilih waktu dan tempat yang kondusif, serta menggunakan bahasa yang jelas dan lugas untuk memastikan pesan tersampaikan dengan baik.', score: 4 }
+                ]
+            },
+            {
+                id: 'kom2', competency: 'Komunikasi', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda menerima umpan balik negatif tentang kinerja Anda. Bagaimana respon Anda?',
+                options: [
+                    { text: 'Merasa tersinggung dan membela diri.', score: 1 },
+                    { text: 'Mengabaikan umpan balik tersebut.', score: 2 },
+                    { text: 'Mendengarkan, tetapi tidak terlalu memikirkannya.', score: 3 },
+                    { text: 'Mendengarkan dengan seksama, mengajukan pertanyaan klarifikasi, dan mencari cara untuk meningkatkan diri berdasarkan umpan balik tersebut.', score: 4 }
+                ]
+            },
+            {
+                id: 'kom3', competency: 'Komunikasi', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda harus mempresentasikan ide kompleks kepada audiens yang beragam. Apa yang Anda persiapkan?',
+                options: [
+                    { text: 'Hanya menyiapkan materi teknis yang mendalam.', score: 1 },
+                    { text: 'Menyiapkan presentasi standar tanpa mempertimbangkan audiens.', score: 2 },
+                    { text: 'Mempersiapkan materi dengan bahasa yang lebih sederhana, tetapi kurang interaktif.', score: 3 },
+                    { text: 'Mempersiapkan presentasi dengan visual menarik, menggunakan analogi yang mudah dipahami, dan membuka sesi tanya jawab untuk memastikan pemahaman audiens.', score: 4 }
+                ]
+            },
+            {
+                id: 'kom4', competency: 'Komunikasi', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Dalam rapat, ada peserta yang mendominasi diskusi. Bagaimana Anda berkontribusi?',
+                options: [
+                    { text: 'Diam saja karena sulit untuk menyela.', score: 1 },
+                    { text: 'Mencoba menyela, tetapi sering gagal.', score: 2 },
+                    { text: 'Menunggu kesempatan untuk berbicara dan menyampaikan poin Anda.', score: 3 },
+                    { text: 'Mencari celah untuk menyampaikan pandangan secara ringkas dan relevan, atau meminta fasilitator untuk memberikan kesempatan bicara kepada semua peserta.', score: 4 }
+                ]
+            },
+            {
+                id: 'kom5', competency: 'Komunikasi', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda perlu memberikan instruksi kepada bawahan. Bagaimana Anda memastikan instruksi dipahami?',
+                options: [
+                    { text: 'Memberikan instruksi sekali dan berasumsi mereka mengerti.', score: 1 },
+                    { text: 'Memberikan instruksi dan meminta mereka mengulanginya.', score: 2 },
+                    { text: 'Memberikan instruksi secara lisan dan tertulis.', score: 3 },
+                    { text: 'Memberikan instruksi secara jelas, meminta bawahan untuk mengulanginya dengan kata-kata mereka sendiri, dan memastikan mereka tahu siapa yang harus dihubungi jika ada pertanyaan.', score: 4 }
+                ]
+            },
+
+            // 4. Orientasi pada hasil
+            {
+                id: 'ori1', competency: 'Orientasi pada hasil', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda diberi target yang sangat ambisius. Bagaimana Anda merespon?',
+                options: [
+                    { text: 'Merasa pesimis dan tidak yakin bisa mencapainya.', score: 1 },
+                    { text: 'Menerima target, tetapi tidak terlalu berusaha keras.', score: 2 },
+                    { text: 'Menganalisis target, membuat rencana, dan berusaha mencapainya.', score: 3 },
+                    { text: 'Menganalisis target, memecahnya menjadi langkah-langkah kecil, mengidentifikasi potensi hambatan, dan menyusun strategi inovatif untuk memastikan pencapaian target melebihi ekspektasi.', score: 4 }
+                ]
+            },
+            {
+                id: 'ori2', competency: 'Orientasi pada hasil', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Proyek Anda mengalami kemunduran. Apa tindakan Anda?',
+                options: [
+                    { text: 'Menyalahkan faktor eksternal dan menunggu instruksi.', score: 1 },
+                    { text: 'Mencari alasan untuk menunda proyek.', score: 2 },
+                    { text: 'Mengevaluasi masalah, mencari solusi, dan melanjutkan proyek.', score: 3 },
+                    { text: 'Mengidentifikasi akar masalah, mengambil tindakan korektif segera, mengkomunikasikan situasi kepada pihak terkait, dan menyesuaikan rencana untuk tetap mencapai hasil optimal.', score: 4 }
+                ]
+            },
+            {
+                id: 'ori3', competency: 'Orientasi pada hasil', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda memastikan kualitas pekerjaan Anda?',
+                options: [
+                    { text: 'Menyelesaikan tugas secepatnya tanpa banyak memeriksa.', score: 1 },
+                    { text: 'Memeriksa pekerjaan secara sekilas sebelum menyerahkan.', score: 2 },
+                    { text: 'Melakukan pemeriksaan menyeluruh dan meminta umpan balik dari rekan kerja.', score: 3 },
+                    { text: 'Mengembangkan standar kualitas pribadi, melakukan pemeriksaan berlapis, dan secara proaktif mencari umpan balik untuk terus meningkatkan kualitas hasil kerja.', score: 4 }
+                ]
+            },
+            {
+                id: 'ori4', competency: 'Orientasi pada hasil', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda memiliki beberapa tugas dengan prioritas berbeda. Bagaimana Anda mengelola waktu?',
+                options: [
+                    { text: 'Mengerjakan tugas yang paling mudah terlebih dahulu.', score: 1 },
+                    { text: 'Mengerjakan tugas sesuai urutan datangnya.', score: 2 },
+                    { text: 'Membuat daftar tugas dan mengurutkannya berdasarkan tenggat waktu.', score: 3 },
+                    { text: 'Mengidentifikasi tugas-tugas kritis, menetapkan prioritas berdasarkan dampak dan tenggat waktu, serta fokus pada penyelesaian tugas berprioritas tinggi terlebih dahulu.', score: 4 }
+                ]
+            },
+            {
+                id: 'ori5', competency: 'Orientasi pada hasil', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda berhasil mencapai target. Apa langkah selanjutnya?',
+                options: [
+                    { text: 'Merasa puas dan tidak melakukan apa-apa lagi.', score: 1 },
+                    { text: 'Menunggu target baru dari atasan.', score: 2 },
+                    { text: 'Mengevaluasi proses untuk melihat apa yang bisa ditingkatkan di masa depan.', score: 3 },
+                    { text: 'Menganalisis keberhasilan, mendokumentasikan pelajaran yang diperoleh, dan secara proaktif mencari peluang untuk menetapkan target yang lebih tinggi atau proyek baru.', score: 4 }
+                ]
+            },
+
+            // 5. Pelayanan publik
+            {
+                id: 'pel1', competency: 'Pelayanan publik', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Seorang warga datang dengan keluhan yang rumit. Bagaimana Anda menanganinya?',
+                options: [
+                    { text: 'Mengatakan bahwa itu bukan bagian dari tugas Anda.', score: 1 },
+                    { text: 'Mengalihkan keluhan kepada rekan kerja lain.', score: 2 },
+                    { text: 'Mendengarkan keluhan, tetapi tidak menawarkan solusi konkret.', score: 3 },
+                    { text: 'Mendengarkan dengan empati, mengidentifikasi akar masalah, menjelaskan prosedur yang relevan, dan membantu mencari solusi terbaik atau mengarahkan ke pihak yang tepat dengan jelas.', score: 4 }
+                ]
+            },
+            {
+                id: 'pel2', competency: 'Pelayanan publik', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda menghadapi antrean panjang dan banyak warga yang tidak sabar. Apa yang Anda lakukan?',
+                options: [
+                    { text: 'Mengabaikan ekspresi ketidakpuasan warga dan fokus pada tugas Anda.', score: 1 },
+                    { text: 'Menyuruh warga untuk bersabar dengan nada datar.', score: 2 },
+                    { text: 'Mempercepat pelayanan sebisa mungkin tanpa mengurangi kualitas.', score: 3 },
+                    { text: 'Menyapa warga dengan ramah, menjelaskan situasi antrean, dan berusaha mempercepat proses pelayanan tanpa mengorbankan ketelitian, serta mencari cara untuk meningkatkan efisiensi sistem.', score: 4 }
+                ]
+            },
+            {
+                id: 'pel3', competency: 'Pelayanan publik', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Seorang warga meminta bantuan di luar jam kerja. Bagaimana respon Anda?',
+                options: [
+                    { text: 'Menolak dengan alasan sudah di luar jam kerja.', score: 1 },
+                    { text: 'Menawarkan bantuan, tetapi dengan nada enggan.', score: 2 },
+                    { text: 'Menawarkan bantuan jika tidak terlalu merepotkan.', score: 3 },
+                    { text: 'Menawarkan bantuan jika memungkinkan, atau memberikan informasi kontak yang relevan untuk bantuan di jam kerja berikutnya, menunjukkan komitmen pada pelayanan.', score: 4 }
+                ]
+            },
+            {
+                id: 'pel4', competency: 'Pelayanan publik', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda memastikan informasi yang Anda berikan kepada publik akurat dan mudah dipahami?',
+                options: [
+                    { text: 'Memberikan informasi seadanya tanpa banyak penjelasan.', score: 1 },
+                    { text: 'Menggunakan istilah teknis yang mungkin sulit dipahami oleh awam.', score: 2 },
+                    { text: 'Menyederhanakan informasi, tetapi tidak memastikan pemahaman.', score: 3 },
+                    { text: 'Menyusun informasi dengan bahasa yang jelas, lugas, dan mudah dipahami, serta menggunakan media yang sesuai (misalnya infografis) untuk meningkatkan aksesibilitas.', score: 4 }
+                ]
+            },
+            {
+                id: 'pel5', competency: 'Pelayanan publik', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda menerima pujian dari warga atas pelayanan Anda. Apa yang Anda lakukan?',
+                options: [
+                    { text: 'Menganggapnya biasa saja.', score: 1 },
+                    { text: 'Menerima pujian tanpa banyak respon.', score: 2 },
+                    { text: 'Mengucapkan terima kasih dan melanjutkan pekerjaan.', score: 3 },
+                    { text: 'Mengucapkan terima kasih, mengapresiasi umpan balik positif tersebut, dan menjadikannya motivasi untuk terus meningkatkan kualitas pelayanan.', score: 4 }
+                ]
+            },
+
+            // 6. Pengembangan diri dan orang lain
+            {
+                id: 'pem1', competency: 'Pengembangan diri dan orang lain', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda merasa ada kekurangan dalam keterampilan kerja Anda. Apa yang Anda lakukan?',
+                options: [
+                    { text: 'Mengabaikannya dan berharap tidak memengaruhi pekerjaan.', score: 1 },
+                    { text: 'Mengeluh tentang kurangnya pelatihan.', score: 2 },
+                    { text: 'Mencari materi belajar mandiri atau mengikuti kursus singkat.', score: 3 },
+                    { text: 'Mengidentifikasi area yang perlu ditingkatkan, mencari pelatihan yang relevan, membaca literatur, dan secara proaktif mencari mentor untuk mengembangkan keterampilan tersebut.', score: 4 }
+                ]
+            },
+            {
+                id: 'pem2', competency: 'Pengembangan diri dan orang lain', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Seorang bawahan Anda kesulitan dalam menyelesaikan tugas. Bagaimana Anda membantunya?',
+                options: [
+                    { text: 'Mengerjakan tugasnya sendiri agar cepat selesai.', score: 1 },
+                    { text: 'Memberikan instruksi singkat dan membiarkannya mencari tahu sendiri.', score: 2 },
+                    { text: 'Memberikan arahan dan contoh, serta memantau progresnya.', score: 3 },
+                    { text: 'Memberikan bimbingan yang terstruktur, mengidentifikasi akar masalah kesulitan, memberikan kesempatan untuk belajar dari kesalahan, dan mendorongnya untuk menemukan solusi sendiri.', score: 4 }
+                ]
+            },
+            {
+                id: 'pem3', competency: 'Pengembangan diri dan orang lain', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda mendorong rekan kerja untuk mengembangkan diri?',
+                options: [
+                    { text: 'Tidak melakukan apa-apa, itu urusan masing-masing.', score: 1 },
+                    { text: 'Memberi tahu mereka untuk belajar lebih banyak.', score: 2 },
+                    { text: 'Membagikan informasi tentang pelatihan atau seminar yang relevan.', score: 3 },
+                    { text: 'Mengidentifikasi potensi rekan kerja, memberikan umpan balik konstruktif, merekomendasikan sumber daya pengembangan, dan menjadi contoh positif dalam pembelajaran berkelanjutan.', score: 4 }
+                ]
+            },
+            {
+                id: 'pem4', competency: 'Pengembangan diri dan orang lain', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda diminta untuk menjadi mentor bagi pegawai baru. Bagaimana Anda mempersiapkan diri?',
+                options: [
+                    { text: 'Tidak mempersiapkan apa-apa, mengalir saja.', score: 1 },
+                    { text: 'Hanya memberikan informasi dasar tentang pekerjaan.', score: 2 },
+                    { text: 'Mempersiapkan materi dan jadwal pertemuan.', score: 3 },
+                    { text: 'Mempelajari kebutuhan pegawai baru, menyusun rencana mentoring yang komprehensif, dan siap memberikan dukungan serta bimbingan yang personal.', score: 4 }
+                ]
+            },
+            {
+                id: 'pem5', competency: 'Pengembangan diri dan orang lain', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda tetap relevan dengan perkembangan terbaru di bidang Anda?',
+                options: [
+                    { text: 'Hanya mengandalkan informasi dari atasan.', score: 1 },
+                    { text: 'Membaca berita sesekali.', score: 2 },
+                    { text: 'Mengikuti seminar atau webinar sesekali.', score: 3 },
+                    { text: 'Secara aktif membaca jurnal, mengikuti konferensi, bergabung dengan komunitas profesional, dan menerapkan pengetahuan baru dalam pekerjaan sehari-hari.', score: 4 }
+                ]
+            },
+
+            // 7. Mengelola perubahan
+            {
+                id: 'mng1', competency: 'Mengelola perubahan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Kantor Anda akan menerapkan sistem kerja baru yang mengubah rutinitas. Bagaimana respon Anda?',
+                options: [
+                    { text: 'Menolak perubahan dan tetap menggunakan cara lama.', score: 1 },
+                    { text: 'Menerima perubahan, tetapi dengan banyak keluhan.', score: 2 },
+                    { text: 'Berusaha memahami sistem baru dan beradaptasi secara perlahan.', score: 3 },
+                    { text: 'Secara proaktif mempelajari sistem baru, mengidentifikasi manfaatnya, dan membantu rekan kerja lain untuk beradaptasi dengan perubahan tersebut.', score: 4 }
+                ]
+            },
+            {
+                id: 'mng2', competency: 'Mengelola perubahan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Ada resistensi dari rekan kerja terhadap perubahan kebijakan. Apa yang Anda lakukan?',
+                options: [
+                    { text: 'Mengabaikan resistensi tersebut dan berharap mereka akan terbiasa.', score: 1 },
+                    { text: 'Mencoba meyakinkan mereka satu per satu secara informal.', score: 2 },
+                    { text: 'Mendengarkan kekhawatiran mereka dan mencoba mencari titik tengah.', score: 3 },
+                    { text: 'Mengidentifikasi alasan resistensi, mengkomunikasikan manfaat perubahan secara jelas, dan memfasilitasi diskusi untuk menemukan solusi yang dapat diterima bersama.', score: 4 }
+                ]
+            },
+            {
+                id: 'mng3', competency: 'Mengelola perubahan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda memastikan perubahan yang diimplementasikan berjalan efektif?',
+                options: [
+                    { text: 'Hanya mengandalkan instruksi dari atasan.', score: 1 },
+                    { text: 'Melakukan perubahan dan tidak memantau hasilnya.', score: 2 },
+                    { text: 'Melakukan pemantauan sesekali dan menyesuaikan jika ada masalah besar.', score: 3 },
+                    { text: 'Menyusun rencana implementasi yang jelas, memantau progres secara berkala, mengumpulkan umpan balik, dan melakukan penyesuaian yang diperlukan untuk memastikan keberhasilan perubahan.', score: 4 }
+                ]
+            },
+            {
+                id: 'mng4', competency: 'Mengelola perubahan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda melihat peluang untuk melakukan inovasi dalam proses kerja. Apa tindakan Anda?',
+                options: [
+                    { text: 'Mendiamkan saja karena takut gagal.', score: 1 },
+                    { text: 'Membagikan ide kepada teman dekat, tetapi tidak menindaklanjuti.', score: 2 },
+                    { text: 'Mengajukan ide kepada atasan, tetapi tidak terlalu berusaha keras untuk mewujudkannya.', score: 3 },
+                    { text: 'Menganalisis potensi inovasi, menyusun proposal yang jelas, dan secara proaktif mencari dukungan serta sumber daya untuk mengimplementasikan ide tersebut.', score: 4 }
+                ]
+            },
+            {
+                id: 'mng5', competency: 'Mengelola perubahan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda mempersiapkan tim untuk perubahan besar di masa depan?',
+                options: [
+                    { text: 'Tidak melakukan persiapan apa-apa, biarkan mereka terkejut.', score: 1 },
+                    { text: 'Memberikan informasi singkat tentang perubahan yang akan datang.', score: 2 },
+                    { text: 'Mengadakan pertemuan untuk membahas perubahan, tetapi tanpa rencana konkret.', score: 3 },
+                    { text: 'Mengkomunikasikan visi perubahan secara transparan, memberikan pelatihan yang diperlukan, dan menciptakan lingkungan yang mendukung adaptasi dan pembelajaran berkelanjutan.', score: 4 }
+                ]
+            },
+
+            // 8. Pengambilan keputusan
+            {
+                id: 'pkp1', competency: 'Pengambilan keputusan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda dihadapkan pada masalah yang mendesak dengan informasi terbatas. Bagaimana Anda mengambil keputusan?',
+                options: [
+                    { text: 'Menunda keputusan sampai semua informasi tersedia.', score: 1 },
+                    { text: 'Mengambil keputusan berdasarkan insting tanpa banyak pertimbangan.', score: 2 },
+                    { text: 'Mengumpulkan informasi seadanya dan mengambil keputusan yang paling aman.', score: 3 },
+                    { text: 'Menganalisis informasi yang tersedia, mengidentifikasi risiko dan peluang, mempertimbangkan berbagai alternatif, dan mengambil keputusan terbaik dalam situasi yang ada.', score: 4 }
+                ]
+            },
+            {
+                id: 'pkp2', competency: 'Pengambilan keputusan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Keputusan Anda mendapat kritik. Bagaimana Anda merespon?',
+                options: [
+                    { text: 'Merasa marah dan menyalahkan orang lain.', score: 1 },
+                    { text: 'Mengabaikan kritik dan tetap pada keputusan awal.', score: 2 },
+                    { text: 'Mendengarkan kritik, tetapi tidak mengubah keputusan.', score: 3 },
+                    { text: 'Mendengarkan kritik dengan terbuka, mengevaluasi kembali keputusan jika diperlukan, dan menjelaskan dasar pemikiran di balik keputusan tersebut secara rasional.', score: 4 }
+                ]
+            },
+            {
+                id: 'pkp3', competency: 'Pengambilan keputusan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda melibatkan tim dalam proses pengambilan keputusan?',
+                options: [
+                    { text: 'Mengambil keputusan sendiri dan mengumumkannya kepada tim.', score: 1 },
+                    { text: 'Meminta masukan dari tim, tetapi tidak selalu mempertimbangkannya.', score: 2 },
+                    { text: 'Mengadakan diskusi untuk mendapatkan masukan, tetapi keputusan akhir tetap di tangan Anda.', score: 3 },
+                    { text: 'Melibatkan tim dalam proses diskusi, mendorong berbagi ide, dan mempertimbangkan masukan mereka secara serius untuk mencapai keputusan yang lebih baik dan didukung bersama.', score: 4 }
+                ]
+            },
+            {
+                id: 'pkp4', competency: 'Pengambilan keputusan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda perlu membuat keputusan yang berdampak besar. Apa yang Anda lakukan?',
+                options: [
+                    { text: 'Membuat keputusan cepat tanpa banyak pertimbangan.', score: 1 },
+                    { text: 'Berkonsultasi dengan satu atau dua orang terdekat saja.', score: 2 },
+                    { text: 'Mengumpulkan data, menganalisis pro dan kontra, dan berkonsultasi dengan beberapa ahli.', score: 3 },
+                    { text: 'Melakukan analisis mendalam, mempertimbangkan berbagai skenario dan dampaknya, berkonsultasi dengan berbagai pihak terkait, dan mengambil keputusan yang paling strategis dan bertanggung jawab.', score: 4 }
+                ]
+            },
+            {
+                id: 'pkp5', competency: 'Pengambilan keputusan', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda memastikan keputusan yang diambil dapat diimplementasikan?',
+                options: [
+                    { text: 'Mengambil keputusan dan menyerahkannya kepada tim untuk diimplementasikan.', score: 1 },
+                    { text: 'Mengambil keputusan dan memberikan instruksi umum.', score: 2 },
+                    { text: 'Mengambil keputusan, menyusun rencana implementasi, dan memantau progres.', score: 3 },
+                    { text: 'Mengambil keputusan, menyusun rencana implementasi yang detail, mengkomunikasikan dengan jelas kepada semua pihak terkait, dan memastikan ketersediaan sumber daya serta dukungan yang diperlukan.', score: 4 }
+                ]
+            },
+
+            // 9. Perekat bangsa
+            {
+                id: 'prb1', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Di lingkungan kerja Anda terdapat keberagaman suku, agama, dan latar belakang. Bagaimana Anda berinteraksi?',
+                options: [
+                    { text: 'Berinteraksi hanya dengan kelompok yang sama.', score: 1 },
+                    { text: 'Menghindari topik sensitif yang berkaitan dengan perbedaan.', score: 2 },
+                    { text: 'Menghormati perbedaan, tetapi tidak terlalu aktif berinteraksi.', score: 3 },
+                    { text: 'Secara aktif menjalin komunikasi, menghargai setiap perbedaan, dan mempromosikan lingkungan kerja yang inklusif dan harmonis bagi semua.', score: 4 }
+                ]
+            },
+            {
+                id: 'prb2', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Ada isu yang berpotensi memecah belah di kantor. Apa yang Anda lakukan?',
+                options: [
+                    { text: 'Ikut campur dan memperkeruh suasana.', score: 1 },
+                    { text: 'Mendiamkan saja dan berharap isu mereda sendiri.', score: 2 },
+                    { text: 'Mencoba menenangkan situasi secara informal.', score: 3 },
+                    { text: 'Mencari tahu fakta yang sebenarnya, mengkomunikasikan pentingnya persatuan, dan memfasilitasi dialog konstruktif untuk meredakan ketegangan.', score: 4 }
+                ]
+            },
+            {
+                id: 'prb3', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda mempromosikan nilai-nilai kebangsaan di lingkungan kerja?',
+                options: [
+                    { text: 'Tidak melakukan apa-apa, itu bukan tugas Anda.', score: 1 },
+                    { text: 'Hanya mengikuti upacara formal.', score: 2 },
+                    { text: 'Membagikan informasi tentang hari besar nasional.', score: 3 },
+                    { text: 'Menjadi contoh dalam praktik nilai-nilai Pancasila, mendorong diskusi tentang persatuan, dan berpartisipasi aktif dalam kegiatan yang memperkuat rasa kebangsaan.', score: 4 }
+                ]
+            },
+            {
+                id: 'prb4', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Anda melihat diskriminasi terjadi di lingkungan kerja. Apa tindakan Anda?',
+                options: [
+                    { text: 'Mengabaikannya karena tidak ingin terlibat masalah.', score: 1 },
+                    { text: 'Berbicara kepada korban secara pribadi, tetapi tidak mengambil tindakan lebih lanjut.', score: 2 },
+                    { text: 'Melaporkan kepada atasan secara informal.', score: 3 },
+                    { text: 'Melaporkan insiden tersebut kepada pihak berwenang di kantor, mendukung korban, dan memastikan tindakan yang tepat diambil untuk mencegah diskriminasi di masa depan.', score: 4 }
+                ]
+            },
+            {
+                id: 'prb5', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
+                questionText: 'Bagaimana Anda membangun hubungan baik dengan berbagai pihak, termasuk dari latar belakang yang berbeda?',
+                options: [
+                    { text: 'Berinteraksi hanya jika ada kepentingan pekerjaan.', score: 1 },
+                    { text: 'Berinteraksi secara formal dan menjaga jarak.', score: 2 },
+                    { text: 'Berusaha memahami budaya dan kebiasaan orang lain.', score: 3 },
+                    { text: 'Secara proaktif membangun jejaring, menunjukkan rasa hormat terhadap perbedaan, dan mencari kesamaan untuk memperkuat persatuan dan kesatuan.', score: 4 }
+                ]
+            }
+        ];
+
+        // New data for Technical Competency Test
+        const technicalQuestions = [
+            // 1. TATA RUANG
+            {
+                id: 'tr1a', testType: 'Teknis', competency: 'TATA RUANG - Perencanaan Tata Ruang',
+                questionText: 'Dalam penyusunan Rencana Tata Ruang Wilayah (RTRW), faktor utama apa yang harus dipertimbangkan untuk menjamin keberlanjutan?',
+                options: [
+                    { text: 'Peningkatan pendapatan asli daerah.', score: 1 },
+                    { text: 'Ketersediaan lahan untuk pembangunan industri.', score: 2 },
+                    { text: 'Keseimbangan antara aspek ekonomi, sosial, dan lingkungan.', score: 4 },
+                    { text: 'Pembangunan infrastruktur transportasi massal.', score: 3 }
+                ]
+            },
+            {
+                id: 'tr1b', testType: 'Teknis', competency: 'TATA RUANG - Pemanfaatan Ruang',
+                questionText: 'Apa yang menjadi dasar hukum utama dalam pengendalian pemanfaatan ruang di Indonesia?',
+                options: [
+                    { text: 'Peraturan Menteri Keuangan.', score: 1 },
+                    { text: 'Undang-Undang Nomor 26 Tahun 2007 tentang Penataan Ruang.', score: 4 },
+                    { text: 'Keputusan Presiden tentang Investasi Asing.', score: 2 },
+                    { text: 'Peraturan Daerah tentang Pajak Bumi dan Bangunan.', score: 3 }
+                ]
+            },
+            {
+                id: 'tr1c', testType: 'Teknis', competency: 'TATA RUANG - Sistem Manajemen Informasi Penataan Ruang',
+                questionText: 'Manfaat utama Sistem Informasi Geografis (SIG) dalam penataan ruang adalah untuk:',
+                options: [
+                    { text: 'Mencetak peta secara manual.', score: 1 },
+                    { text: 'Menyimpan data teks saja.', score: 2 },
+                    { text: 'Analisis spasial, visualisasi data, dan pengambilan keputusan berbasis lokasi.', score: 4 },
+                    { text: 'Membuat laporan keuangan.', score: 3 }
+                ]
+            },
+
+            // 2. SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG
+            {
+                id: 'sp2a', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pengukuran Dasar',
+                questionText: 'Metode pengukuran dasar yang paling akurat untuk menentukan posisi titik kontrol geodetik adalah:',
+                options: [
+                    { text: 'Pengukuran dengan pita ukur.', score: 1 },
+                    { text: 'Pengukuran dengan teodolit.', score: 2 },
+                    { text: 'Pengukuran Global Navigation Satellite System (GNSS).', score: 4 },
+                    { text: 'Pengukuran dengan waterpass.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2b', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN AND RUANG - Pemetaan Dasar',
+                questionText: 'Apa tujuan utama dari pembuatan peta dasar?',
+                options: [
+                    { text: 'Menampilkan batas administrasi desa.', score: 1 },
+                    { text: 'Menyediakan informasi topografi dan fitur alam sebagai acuan dasar.', score: 4 },
+                    { text: 'Menunjukkan lokasi tambang mineral.', score: 2 },
+                    { text: 'Membuat rencana pembangunan perumahan.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2c', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pengukuran Bidang Tanah dan Ruang',
+                questionText: 'Dalam pengukuran bidang tanah, alat ukur GNSS digunakan untuk:',
+                options: [
+                    { text: 'Mengukur kedalaman sumur.', score: 1 },
+                    { text: 'Menentukan koordinat batas-batas bidang tanah dengan presisi tinggi.', score: 4 },
+                    { text: 'Mengukur kecepatan angin.', score: 2 },
+                    { text: 'Menghitung volume material.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2d', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN & RUANG - Pemetaan Bidang Tanah & Ruang',
+                questionText: 'Produk akhir dari kegiatan pemetaan bidang tanah adalah:',
+                options: [
+                    { text: 'Laporan survei sosial.', score: 1 },
+                    { text: 'Gambar situasi tanah atau peta pendaftaran.', score: 4 },
+                    { text: 'Daftar nama pemilik tanah.', score: 2 },
+                    { text: 'Analisis dampak lingkungan.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2e', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Survei Tematik',
+                questionText: 'Contoh survei tematik dalam konteks pertanahan adalah:',
+                options: [
+                    { text: 'Survei jumlah penduduk.', score: 1 },
+                    { text: 'Survei penggunaan dan penutupan lahan.', score: 4 },
+                    { text: 'Survei kepuasan pelanggan.', score: 2 },
+                    { text: 'Survei harga properti.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2f', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pemetaan Tematik',
+                questionText: 'Peta tematik penggunaan lahan berfungsi untuk:',
+                options: [
+                    { text: 'Menunjukkan ketinggian suatu wilayah.', score: 1 },
+                    { text: 'Menggambarkan distribusi jenis penggunaan lahan di suatu area.', score: 4 },
+                    { text: 'Menentukan batas administrasi provinsi.', score: 2 },
+                    { text: 'Memprediksi cuaca di masa depan.', score: 3 }
+                ]
+            },
+
+            // 3. PENETAPAN HAK DAN PENDAFTARAN TANAH
+            {
+                id: 'ph3a', testType: 'Teknis', competency: 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Pemeriksaan Tanah',
+                questionText: 'Tujuan utama pemeriksaan tanah dalam proses pendaftaran tanah adalah untuk:',
+                options: [
+                    { text: 'Menentukan nilai jual tanah.', score: 1 },
+                    { text: 'Memverifikasi data fisik dan yuridis tanah di lapangan.', score: 4 },
+                    { text: 'Menilai kesuburan tanah.', score: 2 },
+                    { text: 'Menghitung potensi pajak tanah.', score: 3 }
+                ]
+            },
+            {
+                id: 'ph3b', testType: 'Teknis', competency: 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Penetapan Hak atas Tanah dan Ruang',
+                questionText: 'Dokumen apa yang menjadi bukti kepemilikan hak atas tanah yang sah?',
+                options: [
+                    { text: 'Surat Keterangan Domisili.', score: 1 },
+                    { text: 'Sertipikat Hak Atas Tanah.', score: 4 },
+                    { text: 'Kartu Tanda Penduduk.', score: 2 },
+                    { text: 'Surat Izin Mengemudi.', score: 3 }
+                ]
+            },
+            {
+                id: 'ph3c', testType: 'Teknis', competency: 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Pendaftaran Tanah',
+                questionText: 'Prinsip pendaftaran tanah di Indonesia yang menganut sistem publikasi adalah:',
+                options: [
+                    { text: 'Prinsip kerahasiaan.', score: 1 },
+                    { text: 'Prinsip kehati-hatian.', score: 2 },
+                    { text: 'Prinsip publisitas negatif.', score: 3 },
+                    { text: 'Prinsip publisitas positif.', score: 4 }
+                ]
+            },
+
+            // 4. PENATAAN AGRARIA
+            {
+                id: 'pa4a', testType: 'Teknis', competency: 'PENATAAN AGRARIA - Landreform',
+                questionText: 'Tujuan utama program Landreform adalah untuk:',
+                options: [
+                    { text: 'Meningkatkan harga tanah.', score: 1 },
+                    { text: 'Mewujudkan keadilan penguasaan dan pemilikan tanah.', score: 4 },
+                    { text: 'Mengurangi jumlah petani.', score: 2 },
+                    { text: 'Membangun perumahan mewah.', score: 3 }
+                ]
+            },
+            {
+                id: 'pa4b', testType: 'Teknis', competency: 'PENATAAN AGRARIA - Penatagunaan Tanah',
+                questionText: 'Kegiatan penatagunaan tanah bertujuan untuk:',
+                options: [
+                    { text: 'Mengubah fungsi lahan secara sembarangan.', score: 1 },
+                    { text: 'Mengatur penggunaan tanah sesuai dengan daya dukung dan daya tampung lingkungan.', score: 4 },
+                    { text: 'Meningkatkan konflik penggunaan tanah.', score: 2 },
+                    { text: 'Mempercepat alih fungsi lahan pertanian.', score: 3 }
+                ]
+            },
+            {
+                id: 'pa4c', testType: 'Teknis', competency: 'PENATAAN AGRARIA - Pemberdayaan Tanah Masyarakat',
+                questionText: 'Bentuk kegiatan pemberdayaan tanah masyarakat yang paling efektif adalah:',
+                options: [
+                    { text: 'Memberikan bantuan uang tunai tanpa pendampingan.', score: 1 },
+                    { text: 'Memberikan sertifikat tanah tanpa pelatihan.', score: 2 },
+                    { text: 'Melakukan pendampingan dan pelatihan untuk peningkatan produktivitas lahan.', score: 4 },
+                    { text: 'Membangun infrastruktur tanpa melibatkan masyarakat.', score: 3 }
+                ]
+            },
+
+            // 5. PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN
+            {
+                id: 'pt5a', testType: 'Teknis', competency: 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pengadaan tanah',
+                questionText: 'Dalam proses pengadaan tanah untuk kepentingan umum, prinsip utama yang harus dijunjung tinggi adalah:',
+                options: [
+                    { text: 'Memaksimalkan keuntungan pemerintah.', score: 1 },
+                    { text: 'Memberikan ganti rugi yang tidak wajar.', score: 2 },
+                    { text: 'Musyawarah untuk mufakat dan ganti kerugian yang layak.', score: 4 },
+                    { text: 'Memaksakan kehendak proyek.', score: 3 }
+                ]
+            },
+            {
+                id: 'pt5b', testType: 'Teknis', competency: 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pencadangan Tanah',
+                questionText: 'Tujuan pencadangan tanah oleh pemerintah adalah untuk:',
+                options: [
+                    { text: 'Menjual tanah kepada pihak swasta.', score: 1 },
+                    { text: 'Menyediakan lahan untuk pembangunan di masa depan.', score: 4 },
+                    { text: 'Membiarkan tanah tidak terpakai.', score: 2 },
+                    { text: 'Meningkatkan spekulasi harga tanah.', score: 3 }
+                ]
+            },
+            {
+                id: 'pt5c', testType: 'Teknis', competency: 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Konsolidasi Tanah',
+                questionText: 'Konsolidasi tanah adalah upaya penataan kembali penguasaan, pemilikan, penggunaan, dan pemanfaatan tanah yang bertujuan untuk:',
+                options: [
+                    { text: 'Memecah-mecah bidang tanah menjadi lebih kecil.', score: 1 },
+                    { text: 'Meningkatkan efisiensi penggunaan lahan dan menciptakan lingkungan yang teratur.', score: 4 },
+                    { text: 'Mempersulit akses ke tanah.', score: 2 },
+                    { text: 'Mengurangi nilai tanah.', score: 3 }
+                ]
+            },
+            {
+                id: 'pt5d', testType: 'Teknis', competency: 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pendayagunaan ekonomi Pertanahan',
+                questionText: 'Program pendayagunaan ekonomi pertanahan fokus pada:',
+                options: [
+                    { text: 'Pengalihan hak tanah tanpa tujuan jelas.', score: 1 },
+                    { text: 'Peningkatan nilai ekonomi tanah melalui kegiatan produktif.', score: 4 },
+                    { text: 'Penyusutan nilai tanah.', score: 2 },
+                    { text: 'Pembatasan akses masyarakat terhadap tanah.', score: 3 }
+                ]
+            },
+
+            // 6. PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG
+            {
+                id: 'pp6a', testType: 'Teknis', competency: 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Merancang Desain Survei',
+                questionText: 'Dalam merancang desain survei untuk pengendalian pertanahan, hal pertama yang harus ditentukan adalah:',
+                options: [
+                    { text: 'Jumlah personel survei.', score: 1 },
+                    { text: 'Tujuan survei dan informasi yang dibutuhkan.', score: 4 },
+                    { text: 'Jenis kendaraan yang akan digunakan.', score: 2 },
+                    { text: 'Waktu pelaksanaan survei.', score: 3 }
+                ]
+            },
+            {
+                id: 'pp6b', testType: 'Teknis', competency: 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Penyusunan Sistem Pengendalian',
+                questionText: 'Sistem pengendalian pertanahan yang efektif harus memiliki komponen utama berupa:',
+                options: [
+                    { text: 'Hanya sanksi yang berat.', score: 1 },
+                    { text: 'Peraturan yang jelas, pemantauan rutin, dan penegakan hukum yang konsisten.', score: 4 },
+                    { text: 'Banyak rapat koordinasi.', score: 2 },
+                    { text: 'Anggaran yang besar.', score: 3 }
+                ]
+            },
+            {
+                id: 'pp6c', testType: 'Teknis', competency: 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Penertiban P4T',
+                questionText: 'Apa yang dimaksud dengan P4T dalam konteks penertiban pertanahan?',
+                options: [
+                    { text: 'Pusat Pelatihan Petugas Pertanahan.', score: 1 },
+                    { text: 'Penguasaan, Pemilikan, Penggunaan, dan Pemanfaatan Tanah.', score: 4 },
+                    { text: 'Program Pendaftaran Tanah Sistematis.', score: 2 },
+                    { text: 'Panitia Pengadaan Tanah.', score: 3 }
+                ]
+            },
+            {
+                id: 'pp6d', testType: 'Teknis', competency: 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Pengendalian Pertanahan',
+                questionText: 'Tujuan utama pengendalian pertanahan adalah untuk:',
+                options: [
+                    { text: 'Membatasi hak masyarakat atas tanah.', score: 1 },
+                    { text: 'Mencegah terjadinya konflik dan sengketa tanah.', score: 4 },
+                    { text: 'Meningkatkan biaya administrasi tanah.', score: 2 },
+                    { text: 'Mempercepat alih fungsi lahan.', score: 3 }
+                ]
+            },
+
+            // 7. PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN
+            {
+                id: 'sk7a', testType: 'Teknis', competency: 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Mediasi Pertanahan',
+                questionText: 'Peran mediator dalam sengketa pertanahan adalah:',
+                options: [
+                    { text: 'Memutuskan siapa yang benar dan salah.', score: 1 },
+                    { text: 'Memfasilitasi komunikasi dan mencari solusi win-win bagi pihak yang bersengketa.', score: 4 },
+                    { text: 'Mewakili salah satu pihak.', score: 2 },
+                    { text: 'Memperpanjang proses sengketa.', score: 3 }
+                ]
+            },
+            {
+                id: 'sk7b', testType: 'Teknis', competency: 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Sengketa Pertanahan',
+                questionText: 'Langkah pertama dalam penanganan sengketa pertanahan adalah:',
+                options: [
+                    { text: 'Langsung membawa ke pengadilan.', score: 1 },
+                    { text: 'Melakukan identifikasi masalah dan pengumpulan data awal.', score: 4 },
+                    { text: 'Mengabaikan sengketa tersebut.', score: 2 },
+                    { text: 'Mengundang semua pihak untuk berdebat.', score: 3 }
+                ]
+            },
+            {
+                id: 'sk7c', testType: 'Teknis', competency: 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Pencegahan dan Penanganan Konflik Tanah',
+                questionText: 'Upaya pencegahan konflik tanah yang paling efektif adalah:',
+                options: [
+                    { text: 'Meningkatkan pengawasan militer di daerah rawan konflik.', score: 1 },
+                    { text: 'Melakukan sosialisasi hukum pertanahan dan pendaftaran tanah secara masif.', score: 4 },
+                    { text: 'Membatasi hak masyarakat adat.', score: 2 },
+                    { text: 'Membangun tembok pembatas antar wilayah.', score: 3 }
+                ]
+            },
+            {
+                id: 'sk7d', testType: 'Teknis', competency: 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Perkara',
+                questionText: 'Dalam penanganan perkara pertanahan di pengadilan, peran Kementerian ATR/BPN adalah:',
+                options: [
+                    { text: 'Menjadi saksi ahli tanpa data.', score: 1 },
+                    { text: 'Memberikan keterangan dan data pertanahan yang akurat sesuai permintaan pengadilan.', score: 4 },
+                    { text: 'Memihak salah satu pihak yang berperkara.', score: 2 },
+                    { text: 'Mengintervensi keputusan hakim.', score: 3 }
+                ]
+            },
+
+            // 8. SDM DAN KEPEGAWAIAN
+            {
+                id: 'sdm8a', testType: 'Teknis', competency: 'SDM DAN KEPEGAWAIAN - Analisis Jabatan',
+                questionText: 'Tujuan utama analisis jabatan adalah untuk:',
+                options: [
+                    { text: 'Menentukan gaji pegawai secara acak.', score: 1 },
+                    { text: 'Mengidentifikasi tugas, tanggung jawab, dan kualifikasi yang dibutuhkan untuk suatu jabatan.', score: 4 },
+                    { text: 'Mencari kesalahan pegawai.', score: 2 },
+                    { text: 'Meningkatkan jumlah pegawai tanpa pertimbangan.', score: 3 }
+                ]
+            },
+            {
+                id: 'sdm8b', testType: 'Teknis', competency: 'SDM DAN KEPEGAWAIAN - Manajemen Kinerja Pegawai',
+                questionText: 'Indikator keberhasilan manajemen kinerja pegawai adalah:',
+                options: [
+                    { text: 'Jumlah kehadiran pegawai.', score: 1 },
+                    { text: 'Pencapaian target individu dan organisasi secara efektif dan efisien.', score: 4 },
+                    { text: 'Tingkat kepuasan atasan.', score: 2 },
+                    { text: 'Jumlah pelatihan yang diikuti pegawai.', score: 3 }
+                ]
+            },
+            {
+                id: 'sdm8c', testType: 'Teknis', competency: 'SDM DAN KEPEGAWAIAN - Manajemen Karir',
+                questionText: 'Manajemen karir pegawai bertujuan untuk:',
+                options: [
+                    { text: 'Mempercepat promosi pegawai tertentu.', score: 1 },
+                    { text: 'Mengembangkan potensi pegawai dan menyelaraskan dengan kebutuhan organisasi.', score: 4 },
+                    { text: 'Menentukan masa pensiun pegawai.', score: 2 },
+                    { text: 'Membatasi mobilitas pegawai.', score: 3 }
+                ]
+            },
+            {
+                id: 'sdm8d', testType: 'Teknis', competency: 'SDM DAN KEPEGAWAIAN - Manajemen Kompetensi',
+                questionText: 'Manajemen kompetensi fokus pada:',
+                options: [
+                    { text: 'Penilaian kepribadian pegawai.', score: 1 },
+                    { text: 'Identifikasi, pengembangan, dan pemanfaatan pengetahuan, keterampilan, dan sikap pegawai.', score: 4 },
+                    { text: 'Pengukuran tinggi badan pegawai.', score: 2 },
+                    { text: 'Penentuan warna seragam pegawai.', score: 3 }
+                ]
+            },
+
+            // 9. KEUANGAN & BMN
+            {
+                id: 'kb9a', testType: 'Teknis', competency: 'KEUANGAN & BMN - Pengelolaan PNBP',
+                questionText: 'Apa yang dimaksud dengan PNBP dalam konteks keuangan negara?',
+                options: [
+                    { text: 'Pajak Negara Bukan Pajak.', score: 1 },
+                    { text: 'Penerimaan Negara Bukan Pajak.', score: 4 },
+                    { text: 'Pengeluaran Negara Belanja Publik.', score: 2 },
+                    { text: 'Pendapatan Nasional Bruto Perusahaan.', score: 3 }
+                ]
+            },
+            {
+                id: 'kb9b', testType: 'Teknis', competency: 'KEUANGAN & BMN - Pengelolaan Anggaran dan Belanja',
+                questionText: 'Prinsip utama dalam pengelolaan anggaran dan belanja adalah:',
+                options: [
+                    { text: 'Menghabiskan anggaran secepatnya.', score: 1 },
+                    { text: 'Efisiensi, efektivitas, akuntabilitas, dan transparansi.', score: 4 },
+                    { text: 'Menyembunyikan informasi pengeluaran.', score: 2 },
+                    { text: 'Meningkatkan defisit anggaran.', score: 3 }
+                ]
+            },
+            {
+                id: 'kb9c', testType: 'Teknis', competency: 'KEUANGAN & BMN - Laporan Keuangan dan Laporan Pendapatan Hibah Langsung',
+                questionText: 'Tujuan penyusunan laporan keuangan adalah untuk:',
+                options: [
+                    { text: 'Menipu auditor.', score: 1 },
+                    { text: 'Menyediakan informasi yang relevan dan andal tentang posisi keuangan dan kinerja entitas.', score: 4 },
+                    { text: 'Membingungkan pembaca.', score: 2 },
+                    { text: 'Meningkatkan utang negara.', score: 3 }
+                ]
+            },
+            {
+                id: 'kb9d', testType: 'Teknis', competency: 'KEUANGAN & BMN - Analisis dan Evaluasi Laporan Keuangan',
+                questionText: 'Metode analisis laporan keuangan yang membandingkan data keuangan selama beberapa periode adalah:',
+                options: [
+                    { text: 'Analisis rasio.', score: 1 },
+                    { text: 'Analisis horizontal (tren).', score: 4 },
+                    { text: 'Analisis vertikal (common size).', score: 2 },
+                    { text: 'Analisis titik impas.', score: 3 }
+                ]
+            },
+            {
+                id: 'kb9e', testType: 'Teknis', competency: 'KEUANGAN & BMN - Pengelolaan BMN',
+                questionText: 'Apa yang dimaksud dengan BMN dalam konteks pengelolaan aset negara?',
+                options: [
+                    { text: 'Barang Milik Negara.', score: 4 },
+                    { text: 'Badan Manajemen Nasional.', score: 1 },
+                    { text: 'Bantuan Modal Nasional.', score: 2 },
+                    { text: 'Biro Mutu Nasional.', score: 3 }
+                ]
+            },
+
+            // 10. PERENCANAAN
+            {
+                id: 'prc10a', testType: 'Teknis', competency: 'PERENCANAAN - Perencanaan Program dan Anggaran',
+                questionText: 'Tahap awal dalam perencanaan program dan anggaran adalah:',
+                options: [
+                    { text: 'Langsung mengalokasikan dana.', score: 1 },
+                    { text: 'Menetapkan tujuan dan sasaran program.', score: 4 },
+                    { text: 'Merekrut staf baru.', score: 2 },
+                    { text: 'Membeli peralatan baru.', score: 3 }
+                ]
+            },
+            {
+                id: 'prc10b', testType: 'Teknis', competency: 'PERENCANAAN - Pengendalian dan Evaluasi Program & Anggaran',
+                questionText: 'Tujuan utama pengendalian dan evaluasi program dan anggaran adalah untuk:',
+                options: [
+                    { text: 'Mencari kesalahan dalam pelaksanaan.', score: 1 },
+                    { text: 'Memastikan program dan anggaran berjalan sesuai rencana dan mencapai tujuan yang ditetapkan.', score: 4 },
+                    { text: 'Membatasi kreativitas pegawai.', score: 2 },
+                    { text: 'Menunda pelaksanaan program.', score: 3 }
+                ]
+            }
+        ];
+
+        // Define competencies for each test type
+        const managerialCompetencies = [
+            'Integritas', 'Kerjasama', 'Komunikasi', 'Orientasi pada hasil',
+            'Pelayanan publik', 'Pengembangan diri dan orang lain', 'Mengelola perubahan',
+            'Pengambilan keputusan', 'Perekat bangsa'
+        ];
+
+        const technicalCompetencies = [
+            'TATA RUANG - Perencanaan Tata Ruang', 'TATA RUANG - Pemanfaatan Ruang', 'TATA RUANG - Sistem Manajemen Informasi Penataan Ruang',
+            'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pengukuran Dasar', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pemetaan Dasar', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pengukuran Bidang Tanah dan Ruang', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pemetaan Bidang Tanah & Ruang', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Survei Tematik', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pemetaan Tematik',
+            'PENETAPAN HAK DAN PENDAFTARAN TANAH - Pemeriksaan Tanah', 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Penetapan Hak atas Tanah dan Ruang', 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Pendaftaran Tanah',
+            'PENATAAN AGRARIA - Landreform', 'PENATAAN AGRARIA - Penatagunaan Tanah', 'PENATAAN AGRARIA - Pemberdayaan Tanah Masyarakat',
+            'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pengadaan tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pencadangan Tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Konsolidasi Tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pendayagunaan ekonomi Pertanahan',
+            'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Merancang Desain Survei', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Penyusunan Sistem Pengendalian', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Penertiban P4T', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Pengendalian Pertanahan',
+            'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Mediasi Pertanahan', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Sengketa Pertanahan', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Pencegahan dan Penanganan Konflik Tanah', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Perkara',
+            'SDM DAN KEPEGAWAIAN - Analisis Jabatan', 'SDM DAN KEPEGAWAIAN - Manajemen Kinerja Pegawai', 'SDM DAN KEPEGAWAIAN - Manajemen Karir', 'SDM DAN KEPEGAWAIAN - Manajemen Kompetensi',
+            'KEUANGAN & BMN - Pengelolaan PNBP', 'KEUANGAN & BMN - Pengelolaan Anggaran dan Belanja', 'KEUANGAN & BMN - Laporan Keuangan dan Laporan Pendapatan Hibah Langsung', 'KEUANGAN & BMN - Analisis dan Evaluasi Laporan Keuangan', 'KEUANGAN & BMN - Pengelolaan BMN',
+            'PERENCANAAN - Perencanaan Program dan Anggaran', 'PERENCANAAN - Pengendalian dan Evaluasi Program & Anggaran'
+        ];
+
+        function App() {
+            // State untuk mengontrol tampilan (intro, test, results, history)
+            const [currentScreen, setCurrentScreen] = React.useState('intro');
+            // State untuk menyimpan daftar soal yang sedang diujikan
+            const [quizQuestions, setQuizQuestions] = React.useState([]);
+            // State untuk menyimpan jawaban pengguna
+            const [userAnswers, setUserAnswers] = React.useState({});
+            // State untuk menyimpan hasil penilaian saat ini
+            const [quizResults, setQuizResults] = React.useState(null);
+            // State untuk melacak soal yang sedang ditampilkan
+            const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
+
+            // State untuk Firebase
+            const [user, setUser] = React.useState(null); // Objek user dari Firebase Auth
+            const [userId, setUserId] = React.useState(null); // UID pengguna
+            const [isAuthReady, setIsAuthReady] = React.useState(false); // Menandakan apakah otentikasi siap
+            const [historyResults, setHistoryResults] = React.useState([]); // Riwayat hasil tes
+            const [loadingHistory, setLoadingHistory] = React.useState(false); // Status loading riwayat
+            const [message, setMessage] = React.useState(''); // Pesan notifikasi
+            const [messageType, setMessageType] = React.useState(''); // Tipe pesan (success, error, info)
+
+            // New state for test mode selection
+            const [selectedTestMode, setSelectedTestMode] = React.useState('manajerial'); // Default mode
+
+            // Fungsi untuk menampilkan pesan notifikasi
+            const showMessage = (msg, type = 'info') => {
+                setMessage(msg);
+                setMessageType(type);
+                setTimeout(() => {
+                    setMessage('');
+                    setMessageType('');
+                }, 5000); // Pesan hilang setelah 5 detik
+            };
+
+            // Effect untuk menangani hasil redirect Google Sign-In
+            React.useEffect(() => {
+                if (!auth) return;
+
+                // Log untuk debugging lingkungan
+                console.log("Current protocol:", location.protocol);
+                console.log("localStorage enabled:", typeof localStorage !== 'undefined');
+
+
+                auth.getRedirectResult().then((result) => {
+                    if (result.user) {
+                        setUser(result.user);
+                        setUserId(result.user.uid);
+                        showMessage(`Selamat datang kembali, ${result.user.displayName || result.user.email || result.user.uid}!`, 'success');
+                    }
+                }).catch((error) => {
+                    console.error("Error during Google Sign-In redirect:", error);
+                    showMessage(`Gagal masuk dengan Google: ${error.message}. Ini mungkin karena batasan lingkungan (misalnya, di dalam iframe atau protokol file://).`, 'error');
+                });
+            }, [auth]); // Hanya bergantung pada 'auth' agar berjalan sekali setelah auth siap
+
+            // Inisialisasi Firebase dan pantau status otentikasi
+            React.useEffect(() => {
+                if (!auth) {
+                    showMessage('Firebase Auth tidak terinisialisasi. Pastikan konfigurasi Firebase sudah benar.', 'error');
+                    setIsAuthReady(true);
+                    return;
+                }
+
+                const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+                    if (currentUser) {
+                        setUser(currentUser);
+                        setUserId(currentUser.uid);
+                        // Pesan selamat datang hanya jika belum diatur oleh getRedirectResult (untuk menghindari duplikasi)
+                        // dan jika pengguna bukan anonim (sudah login dengan Google/email)
+                        if (!currentUser.isAnonymous && !user) {
+                            showMessage(`Selamat datang, ${currentUser.displayName || currentUser.email || currentUser.uid}!`, 'success');
+                        }
+                    } else {
+                        setUser(null);
+                        setUserId(null);
+                        // Jika tidak ada token awal, coba login anonim
+                        if (!initialAuthToken) {
+                            try {
+                                await auth.signInAnonymously();
+                                showMessage('Anda masuk secara anonim.', 'info');
+                            } catch (error) {
+                                console.error("Error signing in anonymously:", error);
+                                showMessage('Gagal masuk secara anonim. Ini mungkin karena batasan lingkungan (misalnya, di dalam iframe atau protokol file://). Silakan coba buka aplikasi ini di tab browser baru.', 'error');
+                            }
+                        }
+                    }
+                    setIsAuthReady(true);
+                });
+
+                // Coba login dengan token awal jika tersedia
+                if (initialAuthToken && auth && !auth.currentUser) {
+                    auth.signInWithCustomToken(initialAuthToken).catch(error => {
+                        console.error("Error signing in with custom token:", error);
+                        showMessage('Gagal masuk dengan token awal. Silakan coba login Google.', 'error');
+                    });
+                }
+
+                return () => unsubscribe(); // Cleanup listener
+            }, [auth, initialAuthToken]); // 'user' dihapus dari dependency array untuk onAuthStateChanged
+
+            // Fungsi untuk login dengan Google
+            const signInWithGoogle = async () => {
+                if (!auth) {
+                    showMessage('Firebase Auth tidak terinisialisasi.', 'error');
+                    return;
+                }
+                try {
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    // Menggunakan signInWithRedirect sebagai ganti signInWithPopup
+                    await auth.signInWithRedirect(provider);
+                    // Setelah redirect, kode di sini tidak akan langsung dieksekusi
+                    // Hasil akan ditangani oleh getRedirectResult() saat halaman dimuat kembali
+                } catch (error) {
+                    console.error("Error signing in with Google:", error);
+                    showMessage(`Gagal masuk dengan Google: ${error.message}. Ini mungkin karena batasan lingkungan (misalnya, di dalam iframe atau protokol file://).`, 'error');
+                }
+            };
+
+            // Fungsi untuk logout
+            const handleSignOut = async () => {
+                if (!auth) {
+                    showMessage('Firebase Auth tidak terinisialisasi.', 'error');
+                    return;
+                }
+                try {
+                    await auth.signOut();
+                    setUser(null);
+                    setUserId(null);
+                    showMessage('Berhasil keluar.', 'info');
+                    setCurrentScreen('intro'); // Kembali ke intro setelah logout
+                } catch (error) {
+                    console.error("Error signing out:", error);
+                    showMessage(`Gagal keluar: ${error.message}`, 'error');
+                }
+            };
+
+            // Fungsi untuk menghasilkan soal secara otomatis berdasarkan mode yang dipilih
+            const generateQuestions = (numPerCompetency = 5) => {
+                let generated = [];
+                const questionsToUse = selectedTestMode === 'manajerial' ? allQuestions : technicalQuestions;
+                const competenciesToUse = selectedTestMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
+
+                competenciesToUse.forEach(comp => {
+                    const compQuestions = questionsToUse.filter(q => q.competency === comp);
+                    // Ensure we don't try to slice more questions than available
+                    const numToTake = Math.min(numPerCompetency, compQuestions.length);
+                    const shuffled = [...compQuestions].sort(() => 0.5 - Math.random());
+                    generated = generated.concat(shuffled.slice(0, numToTake));
+                });
+                setQuizQuestions(generated.sort(() => 0.5 - Math.random()));
+                setUserAnswers({});
+                setQuizResults(null);
+                setCurrentQuestionIndex(0);
+                setCurrentScreen('test');
+            };
+
+            // Fungsi untuk menangani pemilihan jawaban oleh pengguna
+            const handleAnswer = (questionId, selectedOption) => {
+                setUserAnswers(prev => ({
+                    ...prev,
+                    [questionId]: selectedOption
+                }));
+            };
+
+            // Fungsi untuk menghitung skor dan menyimpan hasil ke Firestore
+            const calculateResults = async () => {
+                const results = {};
+                let totalScore = 0;
+                let maxPossibleTotalScore = 0;
+
+                const competenciesToUse = selectedTestMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
+
+                competenciesToUse.forEach(comp => {
+                    results[comp] = { score: 0, maxScore: 0, answeredQuestions: 0 };
+                });
+
+                quizQuestions.forEach(q => {
+                    const selectedAnswer = userAnswers[q.id];
+                    const maxScoreForQuestion = Math.max(...q.options.map(opt => opt.score));
+                    results[q.competency].maxScore += maxScoreForQuestion;
+
+                    if (selectedAnswer) {
+                        results[q.competency].score += selectedAnswer.score;
+                        results[q.competency].answeredQuestions += 1;
+                        totalScore += selectedAnswer.score;
+                    }
+                    maxPossibleTotalScore += maxScoreForQuestion;
+                });
+
+                const finalResults = {
+                    testMode: selectedTestMode, // Simpan mode tes
+                    competencyScores: results,
+                    totalScore,
+                    maxPossibleTotalScore,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() // Gunakan timestamp server
+                };
+
+                setQuizResults(finalResults);
+                setCurrentScreen('results');
+
+                // Simpan hasil ke Firestore jika user terautentikasi
+                if (userId && db) {
+                    try {
+                        const quizResultsCollectionRef = db.collection(`artifacts/${appId}/users/${userId}/quizResults`);
+                        await quizResultsCollectionRef.add(finalResults);
+                        showMessage('Hasil tes berhasil disimpan!', 'success');
+                    } catch (error) {
+                        console.error("Error saving quiz results to Firestore:", error);
+                        showMessage(`Gagal menyimpan hasil tes: ${error.message}`, 'error');
+                    }
+                } else {
+                    showMessage('Anda belum login, hasil tes tidak disimpan.', 'info');
+                }
+            };
+
+            // Fungsi untuk mengambil riwayat hasil tes dari Firestore
+            const fetchHistory = async () => {
+                if (!userId || !db) {
+                    showMessage('Silakan login untuk melihat riwayat tes.', 'info');
+                    return;
+                }
+                setLoadingHistory(true);
+                try {
+                    const quizResultsCollectionRef = db.collection(`artifacts/${appId}/users/${userId}/quizResults`);
+                    // Mengambil data dan mengurutkan berdasarkan timestamp terbaru
+                    const q = quizResultsCollectionRef.orderBy('timestamp', 'desc');
+                    const querySnapshot = await q.get();
+                    const history = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    setHistoryResults(history);
+                    setCurrentScreen('history');
+                    showMessage('Riwayat tes berhasil dimuat.', 'success');
+                } catch (error) {
+                    console.error("Error fetching history from Firestore:", error);
+                    showMessage(`Gagal memuat riwayat tes: ${error.message}`, 'error');
+                } finally {
+                    setLoadingHistory(false);
+                }
+            };
+
+            // Komponen untuk layar intro
+            const IntroScreen = () => (
+                <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 p-4">
+                    <div className="bg-white p-8 rounded-xl shadow-2xl text-center max-w-2xl w-full">
+                        <h1 className="text-4xl font-extrabold text-gray-800 mb-4 animate-fade-in">
+                            Tes Kompetensi
+                        </h1>
+                        <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                            Aplikasi ini dirancang untuk membantu Anda mengukur dan meningkatkan kompetensi, mengacu pada{' '}
+                            <span className="font-semibold text-blue-700">PermenPAN-RB No. 38 Tahun 2017</span>.
+                        </p>
+
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Pilih Jenis Tes:</h2>
+                            <div className="flex justify-center space-x-4">
+                                <label className="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        className="form-radio h-5 w-5 text-blue-600"
+                                        name="testMode"
+                                        value="manajerial"
+                                        checked={selectedTestMode === 'manajerial'}
+                                        onChange={() => setSelectedTestMode('manajerial')}
+                                    />
+                                    <span className="ml-2 text-lg text-gray-700">Manajerial & Sosial Kultural</span>
+                                </label>
+                                <label className="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        className="form-radio h-5 w-5 text-purple-600"
+                                        name="testMode"
+                                        value="teknis"
+                                        checked={selectedTestMode === 'teknis'}
+                                        onChange={() => setSelectedTestMode('teknis')}
+                                    />
+                                    <span className="ml-2 text-lg text-gray-700">Teknis (Kementerian ATR/BPN)</span>
+                                </label>
+                            </div>
+                            {selectedTestMode === 'manajerial' && (
+                                <p className="text-md text-gray-500 mt-4">
+                                    Tes ini meliputi 9 kompetensi: Integritas, Kerjasama, Komunikasi, Orientasi pada hasil, Pelayanan publik, Pengembangan diri dan orang lain, Mengelola perubahan, Pengambilan keputusan, dan Perekat bangsa.
+                                </p>
+                            )}
+                            {selectedTestMode === 'teknis' && (
+                                <p className="text-md text-gray-500 mt-4">
+                                    Tes ini meliputi kompetensi teknis sesuai Standar Kompetensi Jabatan pegawai Kementerian ATR/BPN.
+                                </p>
+                            )}
+                        </div>
+
+                        {isAuthReady && !user ? (
+                            <>
+                                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md relative mb-6 font-bold text-lg" role="alert">
+                                    <span className="block sm:inline ml-2">
+                                        PENTING: Jika Anda mengalami masalah saat login di sini (misalnya di Google Sites atau dari file lokal),
+                                        silakan <a href={window.location.href} target="_blank" rel="noopener noreferrer" className="font-semibold underline text-red-800 hover:text-red-900">KLIK DI SINI untuk membuka aplikasi ini di tab browser baru</a>.
+                                        Ini akan membantu mengatasi batasan keamanan browser untuk login.
+                                    </span>
+                                </div>
+                                <button
+                                    onClick={signInWithGoogle}
+                                    className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                                >
+                                    Masuk dengan Google
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                onClick={() => generateQuestions(selectedTestMode === 'manajerial' ? 5 : 2)} // Mengambil 5 soal per kompetensi manajerial, 2 soal per sub-kompetensi teknis
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300"
+                            >
+                                Mulai Tes {selectedTestMode === 'manajerial' ? 'Manajerial' : 'Teknis'}
+                            </button>
+                        )}
+                        {isAuthReady && user && (
+                            <button
+                                onClick={fetchHistory}
+                                className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-300 ml-4"
+                            >
+                                Lihat Riwayat Tes
+                            </button>
+                        )}
+                    </div>
+                </div>
+            );
+
+            // Komponen untuk layar tes
+            const TestScreen = () => {
+                const currentQuestion = quizQuestions[currentQuestionIndex];
+
+                if (!currentQuestion) {
+                    return <div className="text-center p-8">Memuat soal...</div>;
+                }
+
+                const goToNextQuestion = () => {
+                    if (currentQuestionIndex < quizQuestions.length - 1) {
+                        setCurrentQuestionIndex(prev => prev + 1);
+                    } else {
+                        calculateResults();
+                    }
+                };
+
+                const goToPreviousQuestion = () => {
+                    if (currentQuestionIndex > 0) {
+                        setCurrentQuestionIndex(prev => prev - 1);
+                    }
+                };
+
+                const isAnswered = userAnswers[currentQuestion.id];
+
+                return (
+                    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+                        <div className="bg-white p-8 rounded-xl shadow-2xl max-w-3xl w-full">
+                            <div className="text-sm text-gray-500 mb-4">
+                                Soal {currentQuestionIndex + 1} dari {quizQuestions.length}
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                                <div
+                                    className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out"
+                                    style={{ width: `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%` }}
+                                ></div>
+                            </div>
+
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 leading-relaxed">
+                                {currentQuestion.questionText}
+                            </h2>
+
+                            <div className="space-y-4 mb-8">
+                                {currentQuestion.options.map((option, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleAnswer(currentQuestion.id, option)}
+                                        className={`w-full text-left p-4 rounded-lg border-2 transition duration-200 ease-in-out
+                                            ${userAnswers[currentQuestion.id]?.text === option.text
+                                                ? 'bg-blue-100 border-blue-500 text-blue-800 shadow-md'
+                                                : 'bg-white border-gray-300 hover:border-blue-400 hover:bg-gray-50 text-gray-700'
+                                            }
+                                            focus:outline-none focus:ring-2 focus:ring-blue-300`}
+                                    >
+                                        {option.text}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="flex justify-between mt-6">
+                                <button
+                                    onClick={goToPreviousQuestion}
+                                    disabled={currentQuestionIndex === 0}
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Sebelumnya
+                                </button>
+                                <button
+                                    onClick={goToNextQuestion}
+                                    disabled={!isAnswered}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-blue-300"
+                                >
+                                    {currentQuestionIndex === quizQuestions.length - 1 ? 'Selesai & Lihat Hasil' : 'Selanjutnya'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            // Komponen untuk layar hasil
+            const ResultScreen = () => {
+                if (!quizResults) {
+                    return <div className="text-center p-8">Tidak ada hasil untuk ditampilkan.</div>;
+                }
+
+                const { competencyScores, totalScore, maxPossibleTotalScore, timestamp, testMode } = quizResults;
+                const formattedDate = timestamp ? new Date(timestamp.seconds * 1000).toLocaleString() : 'N/A';
+                const competenciesToDisplay = testMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
+
+
+                return (
+                    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-teal-500 to-green-600 p-4">
+                        <div className="bg-white p-8 rounded-xl shadow-2xl max-w-4xl w-full my-8">
+                            <h1 className="text-4xl font-extrabold text-gray-800 mb-6 text-center">Hasil Tes Anda ({testMode === 'manajerial' ? 'Manajerial & Sosial Kultural' : 'Teknis'})</h1>
+                            <p className="text-lg text-gray-700 mb-2 text-center">
+                                Tanggal Tes: <span className="font-semibold">{formattedDate}</span>
+                            </p>
+                            <p className="text-lg text-gray-700 mb-8 text-center">
+                                Total Skor Anda: <span className="font-bold text-green-700">{totalScore}</span> dari{' '}
+                                <span className="font-bold">{maxPossibleTotalScore}</span>
+                            </p>
+
+                            <div className="grid md:grid-cols-2 gap-6 mb-8">
+                                {competenciesToDisplay.map(comp => {
+                                    const data = competencyScores[comp];
+                                    const percentage = data && data.maxScore > 0 ? (data.score / data.maxScore) * 100 : 0;
+                                    let interpretation = '';
+                                    let textColor = 'text-gray-700';
+
+                                    if (percentage >= 80) {
+                                        interpretation = 'Sangat Kuat: Kompetensi ini adalah kekuatan utama Anda.';
+                                        textColor = 'text-green-600';
+                                    } else if (percentage >= 60) {
+                                        interpretation = 'Kuat: Anda memiliki pemahaman yang baik dalam kompetensi ini.';
+                                        textColor = 'text-blue-600';
+                                    } else if (percentage >= 40) {
+                                        interpretation = 'Cukup: Ada ruang untuk pengembangan lebih lanjut.';
+                                        textColor = 'text-yellow-600';
+                                    } else {
+                                        interpretation = 'Perlu Peningkatan: Disarankan untuk fokus pada pengembangan kompetensi ini.';
+                                        textColor = 'text-red-600';
+                                    }
+
+                                    return (
+                                        <div key={comp} className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                                            <h3 className="text-xl font-semibold text-gray-800 mb-2">{comp}</h3>
+                                            <p className="text-md text-gray-600">
+                                                Skor: <span className="font-bold">{data ? data.score : 0}</span> dari{' '}
+                                                <span className="font-bold">{data ? data.maxScore : 0}</span> ({percentage.toFixed(0)}%)
+                                            </p>
+                                            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                                <div
+                                                    className="h-2.5 rounded-full"
+                                                    style={{
+                                                        width: `${percentage}%`,
+                                                        backgroundColor:
+                                                            percentage >= 80 ? '#10B981' : // green-500
+                                                            percentage >= 60 ? '#3B82F6' : // blue-500
+                                                            percentage >= 40 ? '#F59E0B' : // yellow-500
+                                                            '#EF4444' // red-500
+                                                    }}
+                                                ></div>
+                                            </div>
+                                            <p className={`text-sm mt-3 ${textColor}`}>{interpretation}</p>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="flex justify-center mt-8">
+                                <button
+                                    onClick={() => generateQuestions(selectedTestMode === 'manajerial' ? 5 : 2)}
+                                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-300 mr-4"
+                                >
+                                    Buat Soal Baru & Mulai Tes
+                                </button>
+                                <button
+                                    onClick={fetchHistory}
+                                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-300 mr-4"
+                                >
+                                    Lihat Riwayat Tes
+                                </button>
+                                <button
+                                    onClick={() => setCurrentScreen('intro')}
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-gray-300"
+                                >
+                                    Kembali ke Beranda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            // Komponen untuk layar riwayat
+            const HistoryScreen = () => {
+                if (loadingHistory) {
+                    return (
+                        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+                            <div className="text-xl font-semibold text-gray-700">Memuat riwayat tes...</div>
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mt-4"></div>
+                        </div>
+                    );
+                }
+
+                if (historyResults.length === 0) {
+                    return (
+                        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+                            <div className="bg-white p-8 rounded-xl shadow-2xl text-center max-w-2xl w-full">
+                                <h2 className="text-3xl font-bold text-gray-800 mb-4">Riwayat Tes Anda</h2>
+                                <p className="text-lg text-gray-600 mb-6">Belum ada riwayat tes yang tersimpan.</p>
+                                <button
+                                    onClick={() => setCurrentScreen('intro')}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                                >
+                                    Kembali ke Beranda
+                                </button>
+                            </div>
+                        </div>
+                    );
+                }
+
+                return (
+                    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
+                        <div className="bg-white p-8 rounded-xl shadow-2xl max-w-4xl w-full my-8">
+                            <h1 className="text-4xl font-extrabold text-gray-800 mb-6 text-center">Riwayat Tes Anda</h1>
+                            <p className="text-md text-gray-600 mb-8 text-center">
+                                Berikut adalah daftar hasil tes Anda sebelumnya, diurutkan dari yang terbaru.
+                            </p>
+
+                            <div className="space-y-6">
+                                {historyResults.map((result, index) => {
+                                    const competenciesToDisplay = result.testMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
+                                    return (
+                                        <div key={result.id} className="bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200">
+                                            <div className="flex justify-between items-center mb-4">
+                                                <h2 className="text-xl font-bold text-gray-800">
+                                                    Tes #{historyResults.length - index} ({result.testMode === 'manajerial' ? 'Manajerial & Sosial Kultural' : 'Teknis'})
+                                                </h2>
+                                                <span className="text-sm text-gray-500">
+                                                    {result.timestamp ? new Date(result.timestamp.seconds * 1000).toLocaleString() : 'Tanggal tidak tersedia'}
+                                                </span>
+                                            </div>
+                                            <p className="text-lg text-gray-700 mb-4">
+                                                Total Skor: <span className="font-bold text-green-700">{result.totalScore}</span> dari{' '}
+                                                <span className="font-bold">{result.maxPossibleTotalScore}</span>
+                                            </p>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                {competenciesToDisplay.map(comp => {
+                                                    const data = result.competencyScores[comp];
+                                                    if (!data) return null;
+                                                    const percentage = data.maxScore > 0 ? (data.score / data.maxScore) * 100 : 0;
+                                                    return (
+                                                        <div key={comp} className="bg-white p-4 rounded-lg border border-gray-200">
+                                                            <h4 className="text-md font-semibold text-gray-800">{comp}</h4>
+                                                            <p className="text-sm text-gray-600">
+                                                                Skor: {data.score}/{data.maxScore} ({percentage.toFixed(0)}%)
+                                                            </p>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="flex justify-center mt-8">
+                                <button
+                                    onClick={() => setCurrentScreen('intro')}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                                >
+                                    Kembali ke Beranda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            };
+
+            // Layout utama aplikasi dengan header dan pesan notifikasi
+            return (
+                <div className="font-sans">
+                    {/* Header */}
+                    <header className="bg-gray-800 text-white p-4 shadow-md flex justify-between items-center">
+                        <h1 className="text-2xl font-bold">Kuesioner Kompetensi</h1>
+                        <div className="flex items-center space-x-4">
+                            {isAuthReady && user && (
+                                <>
+                                    <span className="text-sm">
+                                        Pengguna: <span className="font-semibold">{user.displayName || user.email || userId}</span>
+                                        {userId && <span className="ml-2 text-xs text-gray-400">(ID: {userId})</span>}
+                                    </span>
+                                    <button
+                                        onClick={handleSignOut}
+                                        className="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out"
+                                    >
+                                        Keluar
+                                    </button>
+                                </>
+                            )}
+                            {isAuthReady && !user && (
+                                <button
+                                    onClick={signInWithGoogle}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out"
+                                >
+                                    Masuk
+                                </button>
+                            )}
+                        </div>
+                    </header>
+
+                    {/* Message Box */}
+                    {message && (
+                        <div className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50
+                            ${messageType === 'success' ? 'bg-green-500 text-white' : ''}
+                            ${messageType === 'error' ? 'bg-red-500 text-white' : ''}
+                            ${messageType === 'info' ? 'bg-blue-500 text-white' : ''}
+                        `}>
+                            {message}
+                        </div>
+                    )}
+
+                    {/* Konten utama berdasarkan screen */}
+                    {(() => {
+                        switch (currentScreen) {
+                            case 'intro':
+                                return <IntroScreen />;
+                            case 'test':
+                                return <TestScreen />;
+                            case 'results':
+                                return <ResultScreen />;
+                            case 'history':
+                                return <HistoryScreen />;
+                            default:
+                                return <IntroScreen />;
+                        }
+                    })()}
+                </div>
+            );
+        }
+
+        // Menggunakan createRoot untuk React 18
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
