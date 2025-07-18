@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tes Kompetensi ATR/BPN</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
@@ -55,10 +57,14 @@
 <body>
     <div id="root"></div>
 
+    <!-- React CDN -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel CDN (for JSX transformation) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <!-- Firebase SDKs (hanya jika Anda berencana menambahkan fitur lain yang memerlukan Firestore di masa depan) -->
+    <!-- Jika tidak ada kebutuhan Firestore sama sekali, baris ini bisa dihapus -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
@@ -552,181 +558,739 @@
                     { id: 'prb1_opt1', text: 'Berinteraksi hanya dengan kelompok yang sama.', score: 1 },
                     { id: 'prb1_opt2', text: 'Menghindari topik sensitif yang berkaitan dengan perbedaan.', score: 2 },
                     { id: 'prb1_opt3', text: 'Menghormati perbedaan, tetapi tidak terlalu aktif berinteraksi.', score: 3 },
-                    { id: 'prb1_opt4', text: 'Secara aktif menjalin komunikasi, menghargai setiap perbedaan, dan mempromosikan lingkungan kerja yang inklusif dan harmonis.', score: 4, explanation: 'Menjadi perekat bangsa berarti secara aktif mempromosikan inklusivitas dan harmoni di tengah keberagaman.' }
+                    { id: 'prb1_opt4', text: 'Secara aktif menjalin komunikasi, menghargai setiap perbedaan, dan mempromosikan lingkungan kerja yang inklusif dan harmonis bagi semua.', score: 4, explanation: 'Sebagai perekat bangsa, penting untuk secara aktif menjalin komunikasi, menghargai keberagaman, dan mempromosikan inklusivitas di lingkungan kerja.' }
                 ]
             },
             {
                 id: 'prb2', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
-                questionText: 'Anda mendengar komentar yang diskriminatif dari rekan kerja. Apa yang Anda lakukan?',
+                questionText: 'Ada isu yang berpotensi memecah belah di kantor. Apa yang Anda lakukan?',
                 correctAnswerId: 'prb2_opt4',
                 options: [
-                    { id: 'prb2_opt1', text: 'Mendiamkan saja untuk menghindari konflik.', score: 1 },
-                    { id: 'prb2_opt2', text: 'Mengajak rekan kerja lain untuk mengabaikan komentar tersebut.', score: 2 },
-                    { id: 'prb2_opt3', text: 'Menegur rekan kerja secara pribadi agar tidak mengulanginya.', score: 3 },
-                    { id: 'prb2_opt4', text: 'Menegur secara tegas bahwa perilaku tersebut tidak dapat diterima, melaporkan kepada atasan jika perlu, dan mempromosikan toleransi serta penghargaan terhadap perbedaan.', score: 4, explanation: 'Merespon diskriminasi dengan tegas dan mempromosikan toleransi adalah kunci untuk menjaga persatuan dan kesatuan.' }
+                    { id: 'prb2_opt1', text: 'Ikut campur dan memperkeruh suasana.', score: 1 },
+                    { id: 'prb2_opt2', text: 'Mendiamkan saja dan berharap isu mereda sendiri.', score: 2 },
+                    { id: 'prb2_opt3', text: 'Mencoba menenangkan situasi secara informal.', score: 3 },
+                    { id: 'prb2_opt4', text: 'Mencari tahu fakta yang sebenarnya, mengkomunikasikan pentingnya persatuan, dan memfasilitasi dialog konstruktif untuk meredakan ketegangan.', score: 4, explanation: 'Untuk menjaga persatuan, penting untuk mencari fakta, mengkomunikasikan pentingnya persatuan, dan memfasilitasi dialog untuk meredakan ketegangan.' }
                 ]
             },
             {
                 id: 'prb3', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
-                questionText: 'Bagaimana Anda berkontribusi pada terciptanya rasa persatuan di tempat kerja?',
+                questionText: 'Bagaimana Anda mempromosikan nilai-nilai kebangsaan di lingkungan kerja?',
                 correctAnswerId: 'prb3_opt4',
                 options: [
-                    { id: 'prb3_opt1', text: 'Hanya fokus pada tugas pribadi.', score: 1 },
-                    { id: 'prb3_opt2', text: 'Menghadiri acara-acara yang diselenggarakan kantor.', score: 2 },
-                    { id: 'prb3_opt3', text: 'Berusaha mengenal rekan kerja dari berbagai latar belakang.', score: 3 },
-                    { id: 'prb3_opt4', text: 'Menginisiasi kegiatan kolaboratif yang melibatkan beragam latar belakang, menghargai setiap kontribusi, dan menciptakan suasana saling mendukung dan menghormati.', score: 4, explanation: 'Menciptakan persatuan di tempat kerja melibatkan inisiatif kolaboratif, penghargaan terhadap kontribusi, dan fostering lingkungan yang saling mendukung.' }
+                    { id: 'prb3_opt1', text: 'Tidak melakukan apa-apa, itu bukan tugas Anda.', score: 1 },
+                    { id: 'prb3_opt2', text: 'Hanya mengikuti upacara formal.', score: 2 },
+                    { id: 'prb3_opt3', text: 'Membagikan informasi tentang hari besar nasional.', score: 3 },
+                    { id: 'prb3_opt4', text: 'Menjadi contoh dalam praktik nilai-nilai Pancasila, mendorong diskusi tentang persatuan, dan berpartisipasi aktif dalam kegiatan yang memperkuat rasa kebangsaan.', score: 4, explanation: 'Mempromosikan nilai-nilai kebangsaan melibatkan menjadi teladan, mendorong diskusi, dan partisipasi aktif dalam kegiatan yang memperkuat rasa kebangsaan.' }
                 ]
             },
             {
                 id: 'prb4', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
-                questionText: 'Ada perbedaan pendapat yang kuat dalam tim. Bagaimana Anda mengatasinya?',
+                questionText: 'Anda melihat diskriminasi terjadi di lingkungan kerja. Apa tindakan Anda?',
                 correctAnswerId: 'prb4_opt4',
                 options: [
-                    { id: 'prb4_opt1', text: 'Menghindari diskusi dan membiarkan masalah berlarut-larut.', score: 1 },
-                    { id: 'prb4_opt2', text: 'Memaksakan pandangan Anda agar cepat selesai.', score: 2 },
-                    { id: 'prb4_opt3', text: 'Mencari kompromi yang menguntungkan semua pihak.', score: 3 },
-                    { id: 'prb4_opt4', text: 'Memfasilitasi dialog yang konstruktif, mendorong setiap pihak untuk menyampaikan argumen dengan hormat, dan mencari solusi yang mengintegrasikan berbagai perspektif demi tujuan bersama.', score: 4, explanation: 'Mengatasi perbedaan pendapat dengan dialog konstruktif dan mencari solusi yang mengintegrasikan berbagai perspektif adalah kunci untuk menjaga keutuhan tim.' }
+                    { id: 'prb4_opt1', text: 'Mengabaikannya karena tidak ingin terlibat masalah.', score: 1 },
+                    { id: 'prb4_opt2', text: 'Berbicara kepada korban secara pribadi, tetapi tidak mengambil tindakan lebih lanjut.', score: 2 },
+                    { id: 'prb4_opt3', text: 'Melaporkan kepada atasan secara informal.', score: 3 },
+                    { id: 'prb4_opt4', text: 'Melaporkan insiden tersebut kepada pihak berwenang di kantor, mendukung korban, dan memastikan tindakan yang tepat diambil untuk mencegah diskriminasi di masa depan.', score: 4, explanation: 'Melawan diskriminasi adalah tanggung jawab setiap individu. Melaporkan kepada pihak berwenang dan mendukung korban adalah tindakan yang tepat untuk menjaga lingkungan kerja yang adil.' }
                 ]
             },
             {
                 id: 'prb5', competency: 'Perekat bangsa', testType: 'Manajerial/Sosial Kultural',
-                questionText: 'Bagaimana Anda mempromosikan nilai-nilai kebangsaan di lingkungan kerja?',
+                questionText: 'Bagaimana Anda membangun hubungan baik dengan berbagai pihak, termasuk dari latar belakang yang berbeda?',
                 correctAnswerId: 'prb5_opt4',
                 options: [
-                    { id: 'prb5_opt1', text: 'Tidak melakukan apa-apa, itu bukan tugas Anda.', score: 1 },
-                    { id: 'prb5_opt2', text: 'Hanya mengibarkan bendera saat upacara.', score: 2 },
-                    { id: 'prb5_opt3', text: 'Mengingatkan rekan kerja tentang pentingnya nilai kebangsaan sesekali.', score: 3 },
-                    { id: 'prb5_opt4', text: 'Mengintegrasikan nilai-nilai Pancasila dan Bhinneka Tunggal Ika dalam setiap aspek pekerjaan, menjadi teladan perilaku positif, dan menginisiasi diskusi atau kegiatan yang memperkuat rasa persatuan.', score: 4, explanation: 'Mempromosikan nilai-nilai kebangsaan melibatkan integrasi dalam pekerjaan, keteladanan, dan inisiatif untuk memperkuat persatuan.' }
+                    { id: 'prb5_opt1', text: 'Berinteraksi hanya jika ada kepentingan pekerjaan.', score: 1 },
+                    { id: 'prb5_opt2', text: 'Berinteraksi secara formal dan menjaga jarak.', score: 2 },
+                    { id: 'prb5_opt3', text: 'Berusaha memahami budaya dan kebiasaan orang lain.', score: 3 },
+                    { id: 'prb5_opt4', text: 'Secara proaktif membangun jejaring, menunjukkan rasa hormat terhadap perbedaan, dan mencari kesamaan untuk memperkuat persatuan dan kesatuan.', score: 4, explanation: 'Membangun hubungan baik dengan berbagai latar belakang memerlukan inisiatif, rasa hormat terhadap perbedaan, dan fokus pada kesamaan untuk memperkuat persatuan.' }
+                ]
+            }
+        ];
+
+        // New data for Technical Competency Test
+        const technicalQuestions = [
+            // 1. TATA RUANG
+            {
+                id: 'tr1a', testType: 'Teknis', competency: 'TATA RUANG - Perencanaan Tata Ruang',
+                questionText: 'Dalam penyusunan Rencana Tata Ruang Wilayah (RTRW), faktor utama apa yang harus dipertimbangkan untuk menjamin keberlanjutan?',
+                correctAnswerId: 'tr1a_opt3',
+                options: [
+                    { id: 'tr1a_opt1', text: 'Peningkatan pendapatan asli daerah.', score: 1 },
+                    { id: 'tr1a_opt2', text: 'Ketersediaan lahan untuk pembangunan industri.', score: 2 },
+                    { id: 'tr1a_opt3', text: 'Keseimbangan antara aspek ekonomi, sosial, dan lingkungan.', score: 4, explanation: 'Keberlanjutan dalam tata ruang memerlukan keseimbangan holistik antara dimensi ekonomi, sosial, dan lingkungan.' },
+                    { id: 'tr1a_opt4', text: 'Pembangunan infrastruktur transportasi massal.', score: 3 }
                 ]
             },
+            {
+                id: 'tr1b', testType: 'Teknis', competency: 'TATA RUANG - Pemanfaatan Ruang',
+                questionText: 'Apa yang menjadi dasar hukum utama dalam pengendalian pemanfaatan ruang di Indonesia?',
+                correctAnswerId: 'tr1b_opt2',
+                options: [
+                    { id: 'tr1b_opt1', text: 'Peraturan Menteri Keuangan.', score: 1 },
+                    { id: 'tr1b_opt2', text: 'Undang-Undang Nomor 26 Tahun 2007 tentang Penataan Ruang.', score: 4, explanation: 'UU No. 26 Tahun 2007 adalah landasan hukum utama penataan ruang di Indonesia.' },
+                    { id: 'tr1b_opt3', text: 'Keputusan Presiden tentang Investasi Asing.', score: 2 },
+                    { id: 'tr1b_opt4', text: 'Peraturan Daerah tentang Pajak Bumi dan Bangunan.', score: 3 }
+                ]
+            },
+            {
+                id: 'tr1c', testType: 'Teknis', competency: 'TATA RUANG - Sistem Manajemen Informasi Penataan Ruang',
+                questionText: 'Manfaat utama Sistem Informasi Geografis (SIG) dalam penataan ruang adalah untuk:',
+                correctAnswerId: 'tr1c_opt3',
+                options: [
+                    { id: 'tr1c_opt1', text: 'Mencetak peta secara manual.', score: 1 },
+                    { id: 'tr1c_opt2', text: 'Menyimpan data teks saja.', score: 2 },
+                    { id: 'tr1c_opt3', text: 'Analisis spasial, visualisasi data, dan pengambilan keputusan berbasis lokasi.', score: 4, explanation: 'SIG memungkinkan analisis data geografis yang kompleks, visualisasi, dan mendukung keputusan tata ruang berbasis lokasi.' },
+                    { id: 'tr1c_opt4', text: 'Membuat laporan keuangan.', score: 3 }
+                ]
+            },
+
+            // 2. SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG
+            {
+                id: 'sp2a', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pengukuran Dasar',
+                questionText: 'Metode pengukuran dasar yang paling akurat untuk menentukan posisi titik kontrol geodetik adalah:',
+                correctAnswerId: 'sp2a_opt3',
+                options: [
+                    { id: 'sp2a_opt1', text: 'Pengukuran dengan pita ukur.', score: 1 },
+                    { id: 'sp2a_opt2', text: 'Pengukuran dengan teodolit.', score: 2 },
+                    { id: 'sp2a_opt3', text: 'Pengukuran Global Navigation Satellite System (GNSS).', score: 4, explanation: 'GNSS (misalnya GPS) memberikan akurasi tinggi untuk penentuan posisi geodetik.' },
+                    { id: 'sp2a_opt4', text: 'Pengukuran dengan waterpass.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2b', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN AND RUANG - Pemetaan Dasar',
+                questionText: 'Apa tujuan utama dari pembuatan peta dasar?',
+                correctAnswerId: 'sp2b_opt2',
+                options: [
+                    { id: 'sp2b_opt1', text: 'Menampilkan batas administrasi desa.', score: 1 },
+                    { id: 'sp2b_opt2', text: 'Menyediakan informasi topografi dan fitur alam sebagai acuan dasar.', score: 4, explanation: 'Peta dasar menyediakan informasi geografis fundamental untuk berbagai keperluan pemetaan dan perencanaan.' },
+                    { id: 'sp2b_opt3', text: 'Menunjukkan lokasi tambang mineral.', score: 2 },
+                    { id: 'sp2b_opt4', text: 'Membuat rencana pembangunan perumahan.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2c', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pengukuran Bidang Tanah dan Ruang',
+                questionText: 'Dalam pengukuran bidang tanah, alat ukur GNSS digunakan untuk:',
+                correctAnswerId: 'sp2c_opt2',
+                options: [
+                    { id: 'sp2c_opt1', text: 'Mengukur kedalaman sumur.', score: 1 },
+                    { id: 'sp2c_opt2', text: 'Menentukan koordinat batas-batas bidang tanah dengan presisi tinggi.', score: 4, explanation: 'GNSS digunakan untuk mendapatkan koordinat yang sangat akurat untuk batas-batas bidang tanah.' },
+                    { id: 'sp2c_opt3', text: 'Mengukur kecepatan angin.', score: 2 },
+                    { id: 'sp2c_opt4', text: 'Menghitung volume material.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2d', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN & RUANG - Pemetaan Bidang Tanah & Ruang',
+                questionText: 'Produk akhir dari kegiatan pemetaan bidang tanah adalah:',
+                correctAnswerId: 'sp2d_opt2',
+                options: [
+                    { id: 'sp2d_opt1', text: 'Laporan survei sosial.', score: 1 },
+                    { id: 'sp2d_opt2', text: 'Gambar situasi tanah atau peta pendaftaran.', score: 4, explanation: 'Peta pendaftaran atau gambar situasi tanah adalah representasi grafis dari bidang tanah yang diukur.' },
+                    { id: 'sp2d_opt3', text: 'Daftar nama pemilik tanah.', score: 2 },
+                    { id: 'sp2d_opt4', text: 'Analisis dampak lingkungan.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2e', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Survei Tematik',
+                questionText: 'Contoh survei tematik dalam konteks pertanahan adalah:',
+                correctAnswerId: 'sp2e_opt2',
+                options: [
+                    { id: 'sp2e_opt1', text: 'Survei jumlah penduduk.', score: 1 },
+                    { id: 'sp2e_opt2', text: 'Survei penggunaan dan penutupan lahan.', score: 4, explanation: 'Survei tematik fokus pada topik spesifik seperti penggunaan lahan, yang relevan untuk pertanahan.' },
+                    { id: 'sp2e_opt3', text: 'Survei kepuasan pelanggan.', score: 2 },
+                    { id: 'sp2e_opt4', text: 'Survei harga properti.', score: 3 }
+                ]
+            },
+            {
+                id: 'sp2f', testType: 'Teknis', competency: 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pemetaan Tematik',
+                questionText: 'Peta tematik penggunaan lahan berfungsi untuk:',
+                correctAnswerId: 'sp2f_opt2',
+                options: [
+                    { id: 'sp2f_opt1', text: 'Menunjukkan ketinggian suatu wilayah.', score: 1 },
+                    { id: 'sp2f_opt2', text: 'Menggambarkan distribusi jenis penggunaan lahan di suatu area.', score: 4, explanation: 'Peta tematik penggunaan lahan secara khusus menunjukkan bagaimana lahan dimanfaatkan di suatu wilayah.' },
+                    { id: 'sp2f_opt3', text: 'Menentukan batas administrasi provinsi.', score: 2 },
+                    { id: 'sp2f_opt4', text: 'Memprediksi cuaca di masa depan.', score: 3 }
+                ]
+            },
+
+            // 3. PENETAPAN HAK DAN PENDAFTARAN TANAH
+            {
+                id: 'ph3a', testType: 'Teknis', competency: 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Pemeriksaan Tanah',
+                questionText: 'Tujuan utama pemeriksaan tanah dalam proses pendaftaran tanah adalah untuk:',
+                correctAnswerId: 'ph3a_opt2',
+                options: [
+                    { id: 'ph3a_opt1', text: 'Menentukan nilai jual tanah.', score: 1 },
+                    { id: 'ph3a_opt2', text: 'Memverifikasi data fisik dan yuridis tanah di lapangan.', score: 4, explanation: 'Pemeriksaan tanah memastikan kesesuaian data di lapangan dengan dokumen hukum untuk pendaftaran yang akurat.' },
+                    { id: 'ph3a_opt3', text: 'Menilai kesuburan tanah.', score: 2 },
+                    { id: 'ph3a_opt4', text: 'Menghitung potensi pajak tanah.', score: 3 }
+                ]
+            },
+            {
+                id: 'ph3b', testType: 'Teknis', competency: 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Penetapan Hak atas Tanah dan Ruang',
+                questionText: 'Dokumen apa yang menjadi bukti kepemilikan hak atas tanah yang sah?',
+                correctAnswerId: 'ph3b_opt2',
+                options: [
+                    { id: 'ph3b_opt1', text: 'Surat Keterangan Domisili.', score: 1 },
+                    { id: 'ph3b_opt2', text: 'Sertipikat Hak Atas Tanah.', score: 4, explanation: 'Sertipikat Hak Atas Tanah adalah bukti kepemilikan yang sah dan kuat di Indonesia.' },
+                    { id: 'ph3b_opt3', text: 'Kartu Tanda Penduduk.', score: 2 },
+                    { id: 'ph3b_opt4', text: 'Surat Izin Mengemudi.', score: 3 }
+                ]
+            },
+            {
+                id: 'ph3c', testType: 'Teknis', competency: 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Pendaftaran Tanah',
+                questionText: 'Prinsip pendaftaran tanah di Indonesia yang menganut sistem publikasi adalah:',
+                correctAnswerId: 'ph3c_opt4',
+                options: [
+                    { id: 'ph3c_opt1', text: 'Prinsip kerahasiaan.', score: 1 },
+                    { id: 'ph3c_opt2', text: 'Prinsip kehati-hatian.', score: 2 },
+                    { id: 'ph3c_opt3', text: 'Prinsip publisitas negatif.', score: 3 },
+                    { id: 'ph3c_opt4', text: 'Prinsip publisitas positif.', score: 4, explanation: 'Prinsip publisitas positif berarti data pendaftaran tanah dianggap benar dan memberikan kepastian hukum.' }
+                ]
+            },
+
+            // 4. PENATAAN AGRARIA
+            {
+                id: 'pa4a', testType: 'Teknis', competency: 'PENATAAN AGRARIA - Landreform',
+                questionText: 'Tujuan utama program Landreform adalah untuk:',
+                correctAnswerId: 'pa4a_opt2',
+                options: [
+                    { id: 'pa4a_opt1', text: 'Meningkatkan harga tanah.', score: 1 },
+                    { id: 'pa4a_opt2', text: 'Mewujudkan keadilan penguasaan dan pemilikan tanah.', score: 4, explanation: 'Landreform bertujuan untuk redistribusi tanah dan keadilan agraria.' },
+                    { id: 'pa4a_opt3', text: 'Mengurangi jumlah petani.', score: 2 },
+                    { id: 'pa4a_opt4', text: 'Membangun perumahan mewah.', score: 3 }
+                ]
+            },
+            {
+                id: 'pa4b', testType: 'Teknis', competency: 'PENATAAN AGRARIA - Penatagunaan Tanah',
+                questionText: 'Kegiatan penatagunaan tanah bertujuan untuk:',
+                correctAnswerId: 'pa4b_opt2',
+                options: [
+                    { id: 'pa4b_opt1', text: 'Mengubah fungsi lahan secara sembarangan.', score: 1 },
+                    { id: 'pa4b_opt2', text: 'Mengatur penggunaan tanah sesuai dengan daya dukung dan daya tampung lingkungan.', score: 4, explanation: 'Penatagunaan tanah memastikan pemanfaatan lahan yang optimal dan berkelanjutan sesuai kapasitas lingkungan.' },
+                    { id: 'pa4b_opt3', text: 'Meningkatkan konflik penggunaan tanah.', score: 2 },
+                    { id: 'pa4b_opt4', text: 'Mempercepat alih fungsi lahan pertanian.', score: 3 }
+                ]
+            },
+            {
+                id: 'pa4c', testType: 'Teknis', competency: 'PENATAAN AGRARIA - Pemberdayaan Tanah Masyarakat',
+                questionText: 'Bentuk kegiatan pemberdayaan tanah masyarakat yang paling efektif adalah:',
+                correctAnswerId: 'pa4c_opt3',
+                options: [
+                    { id: 'pa4c_opt1', text: 'Memberikan bantuan uang tunai tanpa pendampingan.', score: 1 },
+                    { id: 'pa4c_opt2', text: 'Memberikan sertifikat tanah tanpa pelatihan.', score: 2 },
+                    { id: 'pa4c_opt3', text: 'Melakukan pendampingan dan pelatihan untuk peningkatan produktivitas lahan.', score: 4, explanation: 'Pemberdayaan tanah masyarakat efektif melalui pendampingan dan pelatihan untuk meningkatkan kapasitas dan produktivitas.' },
+                    { id: 'pa4c_opt4', text: 'Membangun infrastruktur tanpa melibatkan masyarakat.', score: 3 }
+                ]
+            },
+
+            // 5. PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN
+            {
+                id: 'pt5a', testType: 'Teknis', competency: 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pengadaan tanah',
+                questionText: 'Dalam proses pengadaan tanah untuk kepentingan umum, prinsip utama yang harus dijunjung tinggi adalah:',
+                correctAnswerId: 'pt5a_opt3',
+                options: [
+                    { id: 'pt5a_opt1', text: 'Memaksimalkan keuntungan pemerintah.', score: 1 },
+                    { id: 'pt5a_opt2', text: 'Memberikan ganti rugi yang tidak wajar.', score: 2 },
+                    { id: 'pt5a_opt3', text: 'Musyawarah untuk mufakat dan ganti kerugian yang layak.', score: 4, explanation: 'Prinsip musyawarah dan ganti rugi yang layak adalah inti dari pengadaan tanah yang adil dan transparan.' },
+                    { id: 'pt5a_opt4', text: 'Memaksakan kehendak proyek.', score: 3 }
+                ]
+            },
+            {
+                id: 'pt5b', testType: 'Teknis', competency: 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pencadangan Tanah',
+                questionText: 'Tujuan pencadangan tanah oleh pemerintah adalah untuk:',
+                correctAnswerId: 'pt5b_opt2',
+                options: [
+                    { id: 'pt5b_opt1', text: 'Menjual tanah kepada pihak swasta.', score: 1 },
+                    { id: 'pt5b_opt2', text: 'Menyediakan lahan untuk pembangunan di masa depan.', score: 4, explanation: 'Pencadangan tanah memastikan ketersediaan lahan untuk kebutuhan pembangunan di masa mendatang.' },
+                    { id: 'pt5b_opt3', text: 'Membiarkan tanah tidak terpakai.', score: 2 },
+                    { id: 'pt5b_opt4', text: 'Meningkatkan spekulasi harga tanah.', score: 3 }
+                ]
+            },
+            {
+                id: 'pt5c', testType: 'Teknis', competency: 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Konsolidasi Tanah',
+                questionText: 'Konsolidasi tanah adalah upaya penataan kembali penguasaan, pemilikan, penggunaan, dan pemanfaatan tanah yang bertujuan untuk:',
+                correctAnswerId: 'pt5c_opt2',
+                options: [
+                    { id: 'pt5c_opt1', text: 'Memecah-mecah bidang tanah menjadi lebih kecil.', score: 1 },
+                    { id: 'pt5c_opt2', text: 'Meningkatkan efisiensi penggunaan lahan dan menciptakan lingkungan yang teratur.', score: 4, explanation: 'Konsolidasi tanah bertujuan untuk menata ulang kepemilikan dan penggunaan lahan agar lebih efisien dan teratur.' },
+                    { id: 'pt5c_opt3', text: 'Mempersulit akses ke tanah.', score: 2 },
+                    { id: 'pt5c_opt4', text: 'Mengurangi nilai tanah.', score: 3 }
+                ]
+            },
+            {
+                id: 'pt5d', testType: 'Teknis', competency: 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pendayagunaan ekonomi Pertanahan',
+                questionText: 'Program pendayagunaan ekonomi pertanahan fokus pada:',
+                correctAnswerId: 'pt5d_opt2',
+                options: [
+                    { id: 'pt5d_opt1', text: 'Pengalihan hak tanah tanpa tujuan jelas.', score: 1 },
+                    { id: 'pt5d_opt2', text: 'Peningkatan nilai ekonomi tanah melalui kegiatan produktif.', score: 4, explanation: 'Pendayagunaan ekonomi pertanahan berfokus pada optimalisasi nilai tanah melalui kegiatan ekonomi yang produktif.' },
+                    { id: 'pt5d_opt3', text: 'Penyusutan nilai tanah.', score: 2 },
+                    { id: 'pt5d_opt4', text: 'Pembatasan akses masyarakat terhadap tanah.', score: 3 }
+                ]
+            },
+
+            // 6. PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG
+            {
+                id: 'pp6a', testType: 'Teknis', competency: 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Merancang Desain Survei',
+                questionText: 'Dalam merancang desain survei untuk pengendalian pertanahan, hal pertama yang harus ditentukan adalah:',
+                correctAnswerId: 'pp6a_opt2',
+                options: [
+                    { id: 'pp6a_opt1', text: 'Jumlah personel survei.', score: 1 },
+                    { id: 'pp6a_opt2', text: 'Tujuan survei dan informasi yang dibutuhkan.', score: 4, explanation: 'Desain survei yang baik dimulai dengan tujuan yang jelas dan identifikasi informasi yang relevan.' },
+                    { id: 'pp6a_opt3', text: 'Jenis kendaraan yang akan digunakan.', score: 2 },
+                    { id: 'pp6a_opt4', text: 'Waktu pelaksanaan survei.', score: 3 }
+                ]
+            },
+            {
+                id: 'pp6b', testType: 'Teknis', competency: 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Penyusunan Sistem Pengendalian',
+                questionText: 'Sistem pengendalian pertanahan yang efektif harus memiliki komponen utama berupa:',
+                correctAnswerId: 'pp6b_opt2',
+                options: [
+                    { id: 'pp6b_opt1', text: 'Hanya sanksi yang berat.', score: 1 },
+                    { id: 'pp6b_opt2', text: 'Peraturan yang jelas, pemantauan rutin, dan penegakan hukum yang konsisten.', score: 4, explanation: 'Sistem pengendalian yang efektif memerlukan kombinasi peraturan, pemantauan, dan penegakan hukum yang konsisten.' },
+                    { id: 'pp6b_opt3', text: 'Banyak rapat koordinasi.', score: 2 },
+                    { id: 'pp6b_opt4', text: 'Anggaran yang besar.', score: 3 }
+                ]
+            },
+            {
+                id: 'pp6c', testType: 'Teknis', competency: 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Penertiban P4T',
+                questionText: 'Apa yang dimaksud dengan P4T dalam konteks penertiban pertanahan?',
+                correctAnswerId: 'pp6c_opt2',
+                options: [
+                    { id: 'pp6c_opt1', text: 'Pusat Pelatihan Petugas Pertanahan.', score: 1 },
+                    { id: 'pp6c_opt2', text: 'Penguasaan, Pemilikan, Penggunaan, dan Pemanfaatan Tanah.', score: 4, explanation: 'P4T adalah akronim untuk Penguasaan, Pemilikan, Penggunaan, dan Pemanfaatan Tanah, yang merupakan aspek-aspek kunci dalam penertiban pertanahan.' },
+                    { id: 'pp6c_opt3', text: 'Program Pendaftaran Tanah Sistematis.', score: 2 },
+                    { id: 'pp6c_opt4', text: 'Panitia Pengadaan Tanah.', score: 3 }
+                ]
+            },
+            {
+                id: 'pp6d', testType: 'Teknis', competency: 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Pengendalian Pertanahan',
+                questionText: 'Tujuan utama pengendalian pertanahan adalah untuk:',
+                correctAnswerId: 'pp6d_opt2',
+                options: [
+                    { id: 'pp6d_opt1', text: 'Membatasi hak masyarakat atas tanah.', score: 1 },
+                    { id: 'pp6d_opt2', text: 'Mencegah terjadinya konflik dan sengketa tanah.', score: 4, explanation: 'Pengendalian pertanahan bertujuan untuk menciptakan kepastian hukum dan mencegah sengketa terkait tanah.' },
+                    { id: 'pp6d_opt3', text: 'Meningkatkan biaya administrasi tanah.', score: 2 },
+                    { id: 'pp6d_opt4', text: 'Mempercepat alih fungsi lahan.', score: 3 }
+                ]
+            },
+
+            // 7. PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN
+            {
+                id: 'sk7a', testType: 'Teknis', competency: 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Mediasi Pertanahan',
+                questionText: 'Peran mediator dalam sengketa pertanahan adalah:',
+                correctAnswerId: 'sk7a_opt2',
+                options: [
+                    { id: 'sk7a_opt1', text: 'Memutuskan siapa yang benar dan salah.', score: 1 },
+                    { id: 'sk7a_opt2', text: 'Memfasilitasi komunikasi dan mencari solusi win-win bagi pihak yang bersengketa.', score: 4, explanation: 'Mediator bertindak sebagai pihak ketiga netral untuk membantu pihak yang bersengketa mencapai kesepakatan bersama.' },
+                    { id: 'sk7a_opt3', text: 'Mewakili salah satu pihak.', score: 2 },
+                    { id: 'sk7a_opt4', text: 'Memperpanjang proses sengketa.', score: 3 }
+                ]
+            },
+            {
+                id: 'sk7b', testType: 'Teknis', competency: 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Sengketa Pertanahan',
+                questionText: 'Langkah pertama dalam penanganan sengketa pertanahan adalah:',
+                correctAnswerId: 'sk7b_opt2',
+                options: [
+                    { id: 'sk7b_opt1', text: 'Langsung membawa ke pengadilan.', score: 1 },
+                    { id: 'sk7b_opt2', text: 'Melakukan identifikasi masalah dan pengumpulan data awal.', score: 4, explanation: 'Sebelum mengambil tindakan lebih lanjut, penting untuk memahami akar masalah dan mengumpulkan semua data relevan.' },
+                    { id: 'sk7b_opt3', text: 'Mengabaikan sengketa tersebut.', score: 2 },
+                    { id: 'sk7b_opt4', text: 'Mengundang semua pihak untuk berdebat.', score: 3 }
+                ]
+            },
+            {
+                id: 'sk7c', testType: 'Teknis', competency: 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Pencegahan dan Penanganan Konflik Tanah',
+                questionText: 'Upaya pencegahan konflik tanah yang paling efektif adalah:',
+                correctAnswerId: 'sk7c_opt2',
+                options: [
+                    { id: 'sk7c_opt1', text: 'Meningkatkan pengawasan militer di daerah rawan konflik.', score: 1 },
+                    { id: 'sk7c_opt2', text: 'Melakukan sosialisasi hukum pertanahan dan pendaftaran tanah secara masif.', score: 4, explanation: 'Penyuluhan hukum dan pendaftaran tanah yang jelas dapat mengurangi potensi konflik dengan memberikan kepastian hukum.' },
+                    { id: 'sk7c_opt3', text: 'Membatasi hak masyarakat adat.', score: 2 },
+                    { id: 'sk7c_opt4', text: 'Membangun tembok pembatas antar wilayah.', score: 3 }
+                ]
+            },
+            {
+                id: 'sk7d', testType: 'Teknis', competency: 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Perkara',
+                questionText: 'Dalam penanganan perkara pertanahan di pengadilan, peran Kementerian ATR/BPN adalah:',
+                correctAnswerId: 'sk7d_opt2',
+                options: [
+                    { id: 'sk7d_opt1', text: 'Menjadi saksi ahli tanpa data.', score: 1 },
+                    { id: 'sk7d_opt2', text: 'Memberikan keterangan dan data pertanahan yang akurat sesuai permintaan pengadilan.', score: 4, explanation: 'Kementerian ATR/BPN berperan sebagai penyedia data dan informasi pertanahan yang relevan untuk proses hukum.' },
+                    { id: 'sk7d_opt3', text: 'Memihak salah satu pihak yang berperkara.', score: 2 },
+                    { id: 'sk7d_opt4', text: 'Mengintervensi keputusan hakim.', score: 3 }
+                ]
+            },
+
+            // 8. SDM DAN KEPEGAWAIAN
+            {
+                id: 'sdm8a', testType: 'Teknis', competency: 'SDM DAN KEPEGAWAIAN - Analisis Jabatan',
+                questionText: 'Tujuan utama analisis jabatan adalah untuk:',
+                correctAnswerId: 'sdm8a_opt2',
+                options: [
+                    { id: 'sdm8a_opt1', text: 'Menentukan gaji pegawai secara acak.', score: 1 },
+                    { id: 'sdm8a_opt2', text: 'Mengidentifikasi tugas, tanggung jawab, dan kualifikasi yang dibutuhkan untuk suatu jabatan.', score: 4, explanation: 'Analisis jabatan adalah proses sistematis untuk mengumpulkan informasi tentang suatu pekerjaan.' },
+                    { id: 'sdm8a_opt3', text: 'Mencari kesalahan pegawai.', score: 2 },
+                    { id: 'sdm8a_opt4', text: 'Meningkatkan jumlah pegawai tanpa pertimbangan.', score: 3 }
+                ]
+            },
+            {
+                id: 'sdm8b', testType: 'Teknis', competency: 'SDM DAN KEPEGAWAIAN - Manajemen Kinerja Pegawai',
+                questionText: 'Indikator keberhasilan manajemen kinerja pegawai adalah:',
+                correctAnswerId: 'sdm8b_opt2',
+                options: [
+                    { id: 'sdm8b_opt1', text: 'Jumlah kehadiran pegawai.', score: 1 },
+                    { id: 'sdm8b_opt2', text: 'Pencapaian target individu dan organisasi secara efektif dan efisien.', score: 4, explanation: 'Manajemen kinerja berfokus pada pencapaian tujuan dan efisiensi, baik di tingkat individu maupun organisasi.' },
+                    { id: 'sdm8b_opt3', text: 'Tingkat kepuasan atasan.', score: 2 },
+                    { id: 'sdm8b_opt4', text: 'Jumlah pelatihan yang diikuti pegawai.', score: 3 }
+                ]
+            },
+            {
+                id: 'sdm8c', testType: 'Teknis', competency: 'SDM DAN KEPEGAWAIAN - Manajemen Karir',
+                questionText: 'Manajemen karir pegawai bertujuan untuk:',
+                correctAnswerId: 'sdm8c_opt2',
+                options: [
+                    { id: 'sdm8c_opt1', text: 'Mempercepat promosi pegawai tertentu.', score: 1 },
+                    { id: 'sdm8c_opt2', text: 'Mengembangkan potensi pegawai dan menyelaraskan dengan kebutuhan organisasi.', score: 4, explanation: 'Manajemen karir bertujuan untuk mengembangkan karyawan sambil memenuhi kebutuhan strategis organisasi.' },
+                    { id: 'sdm8c_opt3', text: 'Menentukan masa pensiun pegawai.', score: 2 },
+                    { id: 'sdm8c_opt4', text: 'Membatasi mobilitas pegawai.', score: 3 }
+                ]
+            },
+            {
+                id: 'sdm8d', testType: 'Teknis', competency: 'SDM DAN KEPEGAWAIAN - Manajemen Kompetensi',
+                questionText: 'Manajemen kompetensi fokus pada:',
+                correctAnswerId: 'sdm8d_opt2',
+                options: [
+                    { id: 'sdm8d_opt1', text: 'Penilaian kepribadian pegawai.', score: 1 },
+                    { id: 'sdm8d_opt2', text: 'Identifikasi, pengembangan, dan pemanfaatan pengetahuan, keterampilan, dan sikap pegawai.', score: 4, explanation: 'Manajemen kompetensi memastikan bahwa organisasi memiliki keterampilan dan pengetahuan yang diperlukan untuk mencapai tujuannya.' },
+                    { id: 'sdm8d_opt3', text: 'Pengukuran tinggi badan pegawai.', score: 2 },
+                    { id: 'sdm8d_opt4', text: 'Penentuan warna seragam pegawai.', score: 3 }
+                ]
+            },
+
+            // 9. KEUANGAN & BMN
+            {
+                id: 'kb9a', testType: 'Teknis', competency: 'KEUANGAN & BMN - Pengelolaan PNBP',
+                questionText: 'Apa yang dimaksud dengan PNBP dalam konteks keuangan negara?',
+                correctAnswerId: 'kb9a_opt2',
+                options: [
+                    { id: 'kb9a_opt1', text: 'Pajak Negara Bukan Pajak.', score: 1 },
+                    { id: 'kb9a_opt2', text: 'Penerimaan Negara Bukan Pajak.', score: 4, explanation: 'PNBP adalah singkatan dari Penerimaan Negara Bukan Pajak, yang merupakan sumber pendapatan negara selain pajak.' },
+                    { id: 'kb9a_opt3', text: 'Pengeluaran Negara Belanja Publik.', score: 2 },
+                    { id: 'kb9a_opt4', text: 'Pendapatan Nasional Bruto Perusahaan.', score: 3 }
+                ]
+            },
+            {
+                id: 'kb9b', testType: 'Teknis', competency: 'KEUANGAN & BMN - Pengelolaan Anggaran dan Belanja',
+                questionText: 'Prinsip utama dalam pengelolaan anggaran dan belanja adalah:',
+                correctAnswerId: 'kb9b_opt2',
+                options: [
+                    { id: 'kb9b_opt1', text: 'Menghabiskan anggaran secepatnya.', score: 1 },
+                    { id: 'kb9b_opt2', text: 'Efisiensi, efektivitas, akuntabilitas, dan transparansi.', score: 4, explanation: 'Prinsip-prinsip ini memastikan penggunaan anggaran yang bertanggung jawab dan optimal.' },
+                    { id: 'kb9b_opt3', text: 'Menyembunyikan informasi pengeluaran.', score: 2 },
+                    { id: 'kb9b_opt4', text: 'Meningkatkan defisit anggaran.', score: 3 }
+                ]
+            },
+            {
+                id: 'kb9c', testType: 'Teknis', competency: 'KEUANGAN & BMN - Laporan Keuangan dan Laporan Pendapatan Hibah Langsung',
+                questionText: 'Tujuan penyusunan laporan keuangan adalah untuk:',
+                correctAnswerId: 'kb9c_opt2',
+                options: [
+                    { id: 'kb9c_opt1', text: 'Menipu auditor.', score: 1 },
+                    { id: 'kb9c_opt2', text: 'Menyediakan informasi yang relevan dan andal tentang posisi keuangan dan kinerja entitas.', score: 4, explanation: 'Laporan keuangan memberikan gambaran transparan tentang kondisi finansial suatu entitas.' },
+                    { id: 'kb9c_opt3', text: 'Membingungkan pembaca.', score: 2 },
+                    { id: 'kb9c_opt4', text: 'Meningkatkan utang negara.', score: 3 }
+                ]
+            },
+            {
+                id: 'kb9d', testType: 'Teknis', competency: 'KEUANGAN & BMN - Analisis dan Evaluasi Laporan Keuangan',
+                questionText: 'Metode analisis laporan keuangan yang membandingkan data keuangan selama beberapa periode adalah:',
+                correctAnswerId: 'kb9d_opt2',
+                options: [
+                    { id: 'kb9d_opt1', text: 'Analisis rasio.', score: 1 },
+                    { id: 'kb9d_opt2', text: 'Analisis horizontal (tren).', score: 4, explanation: 'Analisis horizontal melihat tren data keuangan dari waktu ke waktu.' },
+                    { id: 'kb9d_opt3', text: 'Analisis vertikal (common size).', score: 2 },
+                    { id: 'kb9d_opt4', text: 'Analisis titik impas.', score: 3 }
+                ]
+            },
+            {
+                id: 'kb9e', testType: 'Teknis', competency: 'KEUANGAN & BMN - Pengelolaan BMN',
+                questionText: 'Apa yang dimaksud dengan BMN dalam konteks pengelolaan aset negara?',
+                correctAnswerId: 'kb9e_opt1',
+                options: [
+                    { id: 'kb9e_opt1', text: 'Barang Milik Negara.', score: 4, explanation: 'BMN adalah singkatan dari Barang Milik Negara, yaitu semua aset yang dimiliki oleh negara.' },
+                    { id: 'kb9e_opt2', text: 'Badan Manajemen Nasional.', score: 1 },
+                    { id: 'kb9e_opt3', text: 'Bantuan Modal Nasional.', score: 2 },
+                    { id: 'kb9e_opt4', text: 'Biro Mutu Nasional.', score: 3 }
+                ]
+            },
+
+            // 10. PERENCANAAN
+            {
+                id: 'prc10a', testType: 'Teknis', competency: 'PERENCANAAN - Perencanaan Program dan Anggaran',
+                questionText: 'Tahap awal dalam perencanaan program dan anggaran adalah:',
+                correctAnswerId: 'prc10a_opt2',
+                options: [
+                    { id: 'prc10a_opt1', text: 'Langsung mengalokasikan dana.', score: 1 },
+                    { id: 'prc10a_opt2', text: 'Menetapkan tujuan dan sasaran program.', score: 4, explanation: 'Perencanaan yang baik selalu dimulai dengan penetapan tujuan yang jelas.' },
+                    { id: 'prc10a_opt3', text: 'Merekrut staf baru.', score: 2 },
+                    { id: 'prc10a_opt4', text: 'Membeli peralatan baru.', score: 3 }
+                ]
+            },
+            {
+                id: 'prc10b', testType: 'Teknis', competency: 'PERENCANAAN - Pengendalian dan Evaluasi Program & Anggaran',
+                questionText: 'Tujuan utama pengendalian dan evaluasi program dan anggaran adalah untuk:',
+                correctAnswerId: 'prc10b_opt2',
+                options: [
+                    { id: 'prc10b_opt1', text: 'Mencari kesalahan dalam pelaksanaan.', score: 1 },
+                    { id: 'prc10b_opt2', text: 'Memastikan program dan anggaran berjalan sesuai rencana dan mencapai tujuan yang ditetapkan.', score: 4, explanation: 'Pengendalian dan evaluasi memastikan program tetap pada jalur dan mencapai hasil yang diinginkan.' },
+                    { id: 'prc10b_opt3', text: 'Membatasi kreativitas pegawai.', score: 2 },
+                    { id: 'prc10b_opt4', text: 'Menunda pelaksanaan program.', score: 3 }
+                ]
+            }
+        ];
+
+        // Define competencies for each test type
+        const managerialCompetencies = [
+            'Integritas', 'Kerjasama', 'Komunikasi', 'Orientasi pada hasil',
+            'Pelayanan publik', 'Pengembangan diri dan orang lain', 'Mengelola perubahan',
+            'Pengambilan keputusan', 'Perekat bangsa'
+        ];
+
+        const technicalCompetencies = [
+            'TATA RUANG - Perencanaan Tata Ruang', 'TATA RUANG - Pemanfaatan Ruang', 'TATA RUANG - Sistem Manajemen Informasi Penataan Ruang',
+            'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pengukuran Dasar', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pemetaan Dasar', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pengukuran Bidang Tanah dan Ruang', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pemetaan Bidang Tanah & Ruang', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Survei Tematik', 'SURVEI DAN PEMETAAN PERTANAHAN DAN RUANG - Pemetaan Tematik',
+            'PENETAPAN HAK DAN PENDAFTARAN TANAH - Pemeriksaan Tanah', 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Penetapan Hak atas Tanah dan Ruang', 'PENETAPAN HAK DAN PENDAFTARAN TANAH - Pendaftaran Tanah',
+            'PENATAAN AGRARIA - Landreform', 'PENATAAN AGRARIA - Penatagunaan Tanah', 'PENATAAN AGRARIA - Pemberdayaan Tanah Masyarakat',
+            'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pengadaan tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pencadangan Tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Konsolidasi Tanah', 'PENGADAAN TANAH DAN PENGEMBANGAN PERTANAHAN - Pendayagunaan ekonomi Pertanahan',
+            'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Merancang Desain Survei', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Teknik Penyusunan Sistem Pengendalian', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Penertiban P4T', 'PENGENDALIAN DAN PENERTIBAN TANAH DAN RUANG - Pengendalian Pertanahan',
+            'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Mediasi Pertanahan', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Sengketa Pertanahan', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Pencegahan dan Penanganan Konflik Tanah', 'PENANGANAN SENGKETA DAN KONFLIK PERTANAHAN - Penanganan Perkara',
+            'SDM DAN KEPEGAWAIAN - Analisis Jabatan', 'SDM DAN KEPEGAWAIAN - Manajemen Kinerja Pegawai', 'SDM DAN KEPEGAWAIAN - Manajemen Karir', 'SDM DAN KEPEGAWAIAN - Manajemen Kompetensi',
+            'KEUANGAN & BMN - Pengelolaan PNBP', 'KEUANGAN & BMN - Pengelolaan Anggaran dan Belanja', 'KEUANGAN & BMN - Laporan Keuangan dan Laporan Pendapatan Hibah Langsung', 'KEUANGAN & BMN - Analisis dan Evaluasi Laporan Keuangan', 'KEUANGAN & BMN - Pengelolaan BMN',
+            'PERENCANAAN - Perencanaan Program dan Anggaran', 'PERENCANAAN - Pengendalian dan Evaluasi Program & Anggaran'
         ];
 
         function App() {
+            // State untuk mengontrol tampilan (intro, test, results)
             const [currentScreen, setCurrentScreen] = React.useState('intro');
-            const [currentQuestions, setCurrentQuestions] = React.useState([]);
+            // State untuk menyimpan daftar soal yang sedang diujikan
+            const [quizQuestions, setQuizQuestions] = React.useState([]);
+            // State untuk menyimpan jawaban pengguna
             const [userAnswers, setUserAnswers] = React.useState({});
-            const [results, setResults] = React.useState([]);
+            // State untuk menyimpan hasil penilaian saat ini
+            const [quizResults, setQuizResults] = React.useState(null);
+            // State untuk melacak soal yang sedang ditampilkan
+            const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
 
-            // Fungsi untuk mengocok array (Fisher-Yates shuffle)
-            const shuffleArray = (array) => {
-                let currentIndex = array.length, randomIndex;
-                while (currentIndex !== 0) {
-                    randomIndex = Math.floor(Math.random() * currentIndex);
-                    currentIndex--;
-                    [array[currentIndex], array[randomIndex]] = [
-                        array[randomIndex], array[currentIndex]];
-                }
-                return array;
+            // State untuk mode tes yang dipilih
+            const [selectedTestMode, setSelectedTestMode] = React.useState('manajerial'); // Default mode
+
+            // Fungsi untuk menampilkan pesan notifikasi (sekarang hanya untuk informasi umum)
+            const showMessage = (msg, type = 'info') => {
+                // Implementasi pesan notifikasi sederhana (misalnya, console.log atau elemen UI sementara)
+                console.log(`Pesan ${type}: ${msg}`);
             };
 
-            // Fungsi untuk memilih 3 soal acak dari setiap kompetensi
-            const getRandomQuestionsByCompetency = () => {
-                const questionsByCompetency = allQuestions.reduce((acc, question) => {
-                    if (!acc[question.competency]) {
-                        acc[question.competency] = [];
+            // Fungsi untuk menghasilkan soal secara otomatis berdasarkan mode yang dipilih
+            const generateQuestions = (numPerCompetency = 5) => {
+                let generated = [];
+                const questionsToUse = selectedTestMode === 'manajerial' ? allQuestions : technicalQuestions;
+                const competenciesToUse = selectedTestMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
+
+                competenciesToUse.forEach(comp => {
+                    const compQuestions = questionsToUse.filter(q => q.competency === comp);
+                    // Pastikan tidak mencoba mengambil lebih banyak soal dari yang tersedia
+                    const numToTake = Math.min(numPerCompetency, compQuestions.length);
+                    const shuffled = [...compQuestions].sort(() => 0.5 - Math.random());
+                    generated = generated.concat(shuffled.slice(0, numToTake));
+                });
+                setQuizQuestions(generated.sort(() => 0.5 - Math.random()));
+                setUserAnswers({});
+                setQuizResults(null);
+                setCurrentQuestionIndex(0);
+                setCurrentScreen('test');
+            };
+
+            // Fungsi untuk menangani pemilihan jawaban oleh pengguna
+            const handleAnswer = (questionId, selectedOption) => {
+                setUserAnswers(prev => ({
+                    ...prev,
+                    [questionId]: selectedOption
+                }));
+            };
+
+            // Fungsi untuk menghitung skor
+            const calculateResults = async () => {
+                const results = {};
+                let totalScore = 0;
+                let maxPossibleTotalScore = 0;
+
+                const competenciesToUse = selectedTestMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
+
+                competenciesToUse.forEach(comp => {
+                    results[comp] = { score: 0, maxScore: 0, answeredQuestions: 0 };
+                });
+
+                quizQuestions.forEach(q => {
+                    const selectedAnswer = userAnswers[q.id];
+                    const maxScoreForQuestion = Math.max(...q.options.map(opt => opt.score));
+                    results[q.competency].maxScore += maxScoreForQuestion;
+
+                    if (selectedAnswer) {
+                        // Cari opsi yang dipilih untuk mendapatkan skornya
+                        const chosenOption = q.options.find(opt => opt.id === selectedAnswer.id);
+                        if (chosenOption) {
+                            results[q.competency].score += chosenOption.score;
+                            totalScore += chosenOption.score;
+                        }
+                        results[q.competency].answeredQuestions += 1;
                     }
-                    acc[question.competency].push(question);
-                    return acc;
-                }, {});
+                    maxPossibleTotalScore += maxScoreForQuestion;
+                });
 
-                let selectedQuestions = [];
-                for (const competency in questionsByCompetency) {
-                    const shuffledCompetencyQuestions = shuffleArray([...questionsByCompetency[competency]]);
-                    selectedQuestions = selectedQuestions.concat(shuffledCompetencyQuestions.slice(0, 3)); // Ambil 3 soal
-                }
-                return shuffleArray(selectedQuestions); // Kocok lagi semua soal yang sudah dipilih
+                const finalResults = {
+                    testMode: selectedTestMode, // Simpan mode tes
+                    competencyScores: results,
+                    totalScore,
+                    maxPossibleTotalScore,
+                    timestamp: new Date().toISOString() // Gunakan timestamp lokal karena tidak ada server Firebase
+                };
+
+                setQuizResults(finalResults);
+                setCurrentScreen('results');
+                showMessage('Hasil tes telah dihitung. Hasil tidak disimpan secara permanen tanpa login.', 'info');
             };
 
-            const IntroScreen = () => {
-                return (
-                    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4 bg-gray-50">
-                        <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full text-center">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-4">Selamat Datang di Tes Kompetensi ATR/BPN</h2>
-                            <p className="text-gray-600 mb-6 text-lg">Aplikasi ini dirancang untuk membantu Anda berlatih soal-soal kompetensi manajerial dan sosial kultural berdasarkan PermenPAN-RB No. 38 Tahun 2017.</p>
-                            <p className="text-gray-600 mb-8 text-lg">Akan ada 27 pertanyaan (3 soal dari masing-masing 9 kompetensi) yang diacak. Jawablah setiap pertanyaan sesuai dengan pilihan yang paling menggambarkan diri Anda atau tindakan yang paling tepat.</p>
-                            <button
-                                onClick={() => {
-                                    setCurrentQuestions(getRandomQuestionsByCompetency());
-                                    setUserAnswers({});
-                                    setResults([]);
-                                    setCurrentScreen('test');
-                                }}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg text-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-md"
-                            >
-                                Mulai Tes
-                            </button>
+            // Komponen untuk layar intro
+            const IntroScreen = () => (
+                <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 p-4">
+                    <div className="bg-white p-8 rounded-xl shadow-2xl text-center max-w-2xl w-full">
+                        <h1 className="text-4xl font-extrabold text-gray-800 mb-4 animate-fade-in">
+                            Tes Kompetensi
+                        </h1>
+                        <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+                            Aplikasi ini dirancang untuk membantu Anda mengukur dan meningkatkan kompetensi, mengacu pada{' '}
+                            <span className="font-semibold text-blue-700">PermenPAN-RB No. 38 Tahun 2017</span>.
+                        </p>
+
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Pilih Jenis Tes:</h2>
+                            <div className="flex justify-center space-x-4">
+                                <label className="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        className="form-radio h-5 w-5 text-blue-600"
+                                        name="testMode"
+                                        value="manajerial"
+                                        checked={selectedTestMode === 'manajerial'}
+                                        onChange={() => setSelectedTestMode('manajerial')}
+                                    />
+                                    <span className="ml-2 text-lg text-gray-700">Manajerial & Sosial Kultural</span>
+                                </label>
+                                <label className="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        className="form-radio h-5 w-5 text-purple-600"
+                                        name="testMode"
+                                        value="teknis"
+                                        checked={selectedTestMode === 'teknis'}
+                                        onChange={() => setSelectedTestMode('teknis')}
+                                    />
+                                    <span className="ml-2 text-lg text-gray-700">Teknis (Kementerian ATR/BPN)</span>
+                                </label>
+                            </div>
+                            {selectedTestMode === 'manajerial' && (
+                                <p className="text-md text-gray-500 mt-4">
+                                    Tes ini meliputi 9 kompetensi: Integritas, Kerjasama, Komunikasi, Orientasi pada hasil, Pelayanan publik, Pengembangan diri dan orang lain, Mengelola perubahan, Pengambilan keputusan, dan Perekat bangsa.
+                                </p>
+                            )}
+                            {selectedTestMode === 'teknis' && (
+                                <p className="text-md text-gray-500 mt-4">
+                                    Tes ini meliputi kompetensi teknis sesuai Standar Kompetensi Jabatan pegawai Kementerian ATR/BPN.
+                                </p>
+                            )}
                         </div>
+
+                        <button
+                            onClick={() => generateQuestions(selectedTestMode === 'manajerial' ? 5 : 2)} // Mengambil 5 soal per kompetensi manajerial, 2 soal per sub-kompetensi teknis
+                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-300"
+                        >
+                            Mulai Tes {selectedTestMode === 'manajerial' ? 'Manajerial' : 'Teknis'}
+                        </button>
                     </div>
-                );
-            };
+                </div>
+            );
 
+            // Komponen untuk layar tes
             const TestScreen = () => {
-                const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
-                const currentQuestion = currentQuestions[currentQuestionIndex];
-
-                const handleOptionChange = (questionId, optionId) => {
-                    setUserAnswers(prevAnswers => ({
-                        ...prevAnswers,
-                        [questionId]: optionId
-                    }));
-                };
-
-                const handleNext = () => {
-                    if (currentQuestionIndex < currentQuestions.length - 1) {
-                        setCurrentQuestionIndex(prevIndex => prevIndex + 1);
-                    } else {
-                        calculateResults();
-                        setCurrentScreen('results');
-                    }
-                };
-
-                const handlePrevious = () => {
-                    if (currentQuestionIndex > 0) {
-                        setCurrentQuestionIndex(prevIndex => prevIndex - 1);
-                    }
-                };
+                const currentQuestion = quizQuestions[currentQuestionIndex];
 
                 if (!currentQuestion) {
                     return <div className="text-center p-8">Memuat soal...</div>;
                 }
 
+                const goToNextQuestion = () => {
+                    if (currentQuestionIndex < quizQuestions.length - 1) {
+                        setCurrentQuestionIndex(prev => prev + 1);
+                    } else {
+                        calculateResults();
+                    }
+                };
+
+                const goToPreviousQuestion = () => {
+                    if (currentQuestionIndex > 0) {
+                        setCurrentQuestionIndex(prev => prev - 1);
+                    }
+                };
+
+                const isAnswered = userAnswers[currentQuestion.id];
+
                 return (
-                    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4 bg-gray-50">
-                        <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full">
-                            <div className="text-right text-gray-500 mb-4">
-                                Soal {currentQuestionIndex + 1} dari {currentQuestions.length}
+                    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+                        <div className="bg-white p-8 rounded-xl shadow-2xl max-w-3xl w-full">
+                            <div className="text-sm text-gray-500 mb-4">
+                                Soal {currentQuestionIndex + 1} dari {quizQuestions.length}
                             </div>
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-6 leading-relaxed">
+                            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                                <div
+                                    className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-out"
+                                    style={{ width: `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%` }}
+                                ></div>
+                            </div>
+
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 leading-relaxed">
                                 {currentQuestion.questionText}
-                            </h3>
-                            <div className="space-y-4">
-                                {currentQuestion.options.map(option => (
-                                    <label key={option.id} className="flex items-center bg-gray-100 p-4 rounded-lg cursor-pointer hover:bg-blue-50 transition duration-200 ease-in-out">
-                                        <input
-                                            type="radio"
-                                            name={currentQuestion.id}
-                                            value={option.id}
-                                            checked={userAnswers[currentQuestion.id] === option.id}
-                                            onChange={() => handleOptionChange(currentQuestion.id, option.id)}
-                                            className="form-radio text-blue-600 h-5 w-5"
-                                        />
-                                        <span className="ml-4 text-lg text-gray-700">{option.text}</span>
-                                    </label>
+                            </h2>
+
+                            <div className="space-y-4 mb-8">
+                                {currentQuestion.options.map((option, index) => (
+                                    <button
+                                        key={option.id} // Gunakan option.id sebagai key
+                                        onClick={() => handleAnswer(currentQuestion.id, option)}
+                                        className={`w-full text-left p-4 rounded-lg border-2 transition duration-200 ease-in-out
+                                            ${userAnswers[currentQuestion.id]?.id === option.id // Bandingkan dengan option.id
+                                                ? 'bg-blue-100 border-blue-500 text-blue-800 shadow-md'
+                                                : 'bg-white border-gray-300 hover:border-blue-400 hover:bg-gray-50 text-gray-700'
+                                            }
+                                            focus:outline-none focus:ring-2 focus:ring-blue-300`}
+                                    >
+                                        {option.text}
+                                    </button>
                                 ))}
                             </div>
-                            <div className="flex justify-between mt-8">
+
+                            <div className="flex justify-between mt-6">
                                 <button
-                                    onClick={handlePrevious}
+                                    onClick={goToPreviousQuestion}
                                     disabled={currentQuestionIndex === 0}
-                                    className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out ${currentQuestionIndex === 0 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Sebelumnya
                                 </button>
                                 <button
-                                    onClick={handleNext}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out"
+                                    onClick={goToNextQuestion}
+                                    disabled={!isAnswered}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-blue-300"
                                 >
-                                    {currentQuestionIndex === currentQuestions.length - 1 ? 'Selesai Tes' : 'Selanjutnya'}
+                                    {currentQuestionIndex === quizQuestions.length - 1 ? 'Selesai & Lihat Hasil' : 'Selanjutnya'}
                                 </button>
                             </div>
                         </div>
@@ -734,94 +1298,136 @@
                 );
             };
 
+            // Komponen untuk layar hasil
             const ResultScreen = () => {
-                const [showExplanations, setShowExplanations] = React.useState(false);
+                if (!quizResults) {
+                    return <div className="text-center p-8">Tidak ada hasil untuk ditampilkan.</div>;
+                }
 
-                const totalScore = results.reduce((sum, res) => sum + res.score, 0);
-                const maxPossibleScore = currentQuestions.length * 4; // Each question has a max score of 4
+                const { competencyScores, totalScore, maxPossibleTotalScore, timestamp, testMode } = quizResults;
+                const formattedDate = timestamp ? new Date(timestamp).toLocaleString() : 'N/A'; // Menggunakan timestamp lokal
 
-                // Calculate score per competency
-                const competencyScores = results.reduce((acc, res) => {
-                    if (!acc[res.competency]) {
-                        acc[res.competency] = { score: 0, count: 0 };
-                    }
-                    acc[res.competency].score += res.score;
-                    acc[res.competency].count++;
-                    return acc;
-                }, {});
+                const competenciesToDisplay = testMode === 'manajerial' ? managerialCompetencies : technicalCompetencies;
+
 
                 return (
-                    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-64px)] p-4 bg-gray-50">
-                        <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Hasil Tes Kompetensi</h2>
+                    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-teal-500 to-green-600 p-4">
+                        <div className="bg-white p-8 rounded-xl shadow-2xl max-w-4xl w-full my-8">
+                            <h1 className="text-4xl font-extrabold text-gray-800 mb-6 text-center">Hasil Tes Anda ({testMode === 'manajerial' ? 'Manajerial & Sosial Kultural' : 'Teknis'})</h1>
+                            <p className="text-lg text-gray-700 mb-2 text-center">
+                                Tanggal Tes: <span className="font-semibold">{formattedDate}</span>
+                            </p>
+                            <p className="text-lg text-gray-700 mb-8 text-center">
+                                Total Skor Anda: <span className="font-bold text-green-700">{totalScore}</span> dari{' '}
+                                <span className="font-bold">{maxPossibleTotalScore}</span>
+                            </p>
 
-                            <div className="text-center mb-8">
-                                <p className="text-xl text-gray-700">Skor Total Anda: <span className="font-bold text-blue-600">{totalScore}</span> dari {maxPossibleScore}</p>
+                            <div className="grid md:grid-cols-2 gap-6 mb-8">
+                                {competenciesToDisplay.map(comp => {
+                                    const data = competencyScores[comp];
+                                    const percentage = data && data.maxScore > 0 ? (data.score / data.maxScore) * 100 : 0;
+                                    let interpretation = '';
+                                    let textColor = 'text-gray-700';
+
+                                    if (percentage >= 80) {
+                                        interpretation = 'Sangat Kuat: Kompetensi ini adalah kekuatan utama Anda.';
+                                        textColor = 'text-green-600';
+                                    } else if (percentage >= 60) {
+                                        interpretation = 'Kuat: Anda memiliki pemahaman yang baik dalam kompetensi ini.';
+                                        textColor = 'text-blue-600';
+                                    } else if (percentage >= 40) {
+                                        interpretation = 'Cukup: Ada ruang untuk pengembangan lebih lanjut.';
+                                        textColor = 'text-yellow-600';
+                                    } else {
+                                        interpretation = 'Perlu Peningkatan: Disarankan untuk fokus pada pengembangan kompetensi ini.';
+                                        textColor = 'text-red-600';
+                                    }
+
+                                    return (
+                                        <div key={comp} className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                                            <h3 className="text-xl font-semibold text-gray-800 mb-2">{comp}</h3>
+                                            <p className="text-md text-gray-600">
+                                                Skor: <span className="font-bold">{data ? data.score : 0}</span> dari{' '}
+                                                <span className="font-bold">{data ? data.maxScore : 0}</span> ({percentage.toFixed(0)}%)
+                                            </p>
+                                            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                                <div
+                                                    className="h-2.5 rounded-full"
+                                                    style={{
+                                                        width: `${percentage}%`,
+                                                        backgroundColor:
+                                                            percentage >= 80 ? '#10B981' : // green-500
+                                                            percentage >= 60 ? '#3B82F6' : // blue-500
+                                                            percentage >= 40 ? '#F59E0B' : // yellow-500
+                                                            '#EF4444' // red-500
+                                                    }}
+                                                ></div>
+                                            </div>
+                                            <p className={`text-sm mt-3 ${textColor}`}>{interpretation}</p>
+                                        </div>
+                                    );
+                                })}
                             </div>
 
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Detail Skor per Kompetensi:</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                                {Object.entries(competencyScores).map(([competency, data]) => (
-                                    <div key={competency} className="bg-blue-50 p-4 rounded-lg shadow-sm">
-                                        <p className="font-semibold text-blue-800">{competency}: <span className="text-blue-600">{data.score}</span> dari {data.count * 4}</p>
-                                    </div>
-                                ))}
-                            </div>
+                            {/* Bagian untuk menampilkan jawaban dan pembahasan */}
+                            <h2 className="text-3xl font-extrabold text-gray-800 mt-12 mb-6 text-center">Tinjauan Jawaban Anda</h2>
+                            <div className="space-y-8">
+                                {quizQuestions.map((q, index) => {
+                                    const userAnswer = userAnswers[q.id];
+                                    const correctAnswer = q.options.find(opt => opt.id === q.correctAnswerId);
+                                    const isCorrect = userAnswer && userAnswer.id === q.correctAnswerId;
 
-                            <div className="text-center mb-6">
-                                <button
-                                    onClick={() => setShowExplanations(!showExplanations)}
-                                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg text-lg transition duration-300 ease-in-out shadow-md"
-                                >
-                                    {showExplanations ? 'Sembunyikan Penjelasan' : 'Lihat Penjelasan Jawaban'}
-                                </button>
-                            </div>
-
-                            {showExplanations && (
-                                <div className="mt-8 space-y-6">
-                                    <h3 className="text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Penjelasan Lengkap Jawaban Anda:</h3>
-                                    {results.map((res, index) => (
-                                        <div key={index} className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
-                                            <p className="font-semibold text-gray-800 text-lg mb-2">Soal: {res.questionText}</p>
-                                            <p className="text-gray-700 mb-1">Jawaban Anda: <span className="font-medium">{res.userAnswerText}</span> (Skor: {res.score})</p>
-                                            <p className="text-gray-700 mb-1">Jawaban Benar: <span className="font-medium text-green-700">{res.correctAnswerText}</span> (Skor Maksimal: 4)</p>
-                                            {res.explanation && (
-                                                <p className="text-gray-600 italic mt-2">Penjelasan: {res.explanation}</p>
+                                    return (
+                                        <div key={q.id} className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                                            <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                                                Soal {index + 1}: {q.questionText}
+                                            </h3>
+                                            <p className="text-md text-gray-700 mb-2">
+                                                Jawaban Anda:{' '}
+                                                <span className={`${isCorrect ? 'text-green-600' : 'text-red-600'} font-semibold`}>
+                                                    {userAnswer ? userAnswer.text : 'Tidak Dijawab'}
+                                                </span>
+                                                {' '}
+                                                {isCorrect ? (
+                                                    <span className="text-green-600">&#10003; Benar</span>
+                                                ) : (
+                                                    <span className="text-red-600">&#10007; Salah</span>
+                                                )}
+                                            </p>
+                                            <p className="text-md text-gray-700 mb-2">
+                                                Jawaban Benar:{' '}
+                                                <span className="text-green-600 font-semibold">
+                                                    {correctAnswer ? correctAnswer.text : 'N/A'}
+                                                </span>
+                                            </p>
+                                            {correctAnswer && correctAnswer.explanation && (
+                                                <div className="bg-blue-50 p-3 rounded-md mt-3">
+                                                    <p className="text-sm text-blue-800 font-medium">Pembahasan:</p>
+                                                    <p className="text-sm text-blue-700">{correctAnswer.explanation}</p>
+                                                </div>
                                             )}
                                         </div>
-                                    ))}
-                                </div>
-                            )}
+                                    );
+                                })}
+                            </div>
 
                             <div className="flex justify-center mt-8">
                                 <button
-                                    onClick={() => setCurrentScreen('intro')}
-                                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg text-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-md"
+                                    onClick={() => generateQuestions(selectedTestMode === 'manajerial' ? 5 : 2)}
+                                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-300 mr-4"
                                 >
-                                    Ulangi Tes
+                                    Buat Soal Baru & Mulai Tes
+                                </button>
+                                <button
+                                    onClick={() => setCurrentScreen('intro')}
+                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-gray-300"
+                                >
+                                    Kembali ke Beranda
                                 </button>
                             </div>
                         </div>
                     </div>
                 );
-            };
-
-            const calculateResults = () => {
-                const calculated = currentQuestions.map(q => {
-                    const userAnswerId = userAnswers[q.id];
-                    const userAnswerOption = q.options.find(opt => opt.id === userAnswerId);
-                    const correctAnswerOption = q.options.find(opt => opt.id === q.correctAnswerId);
-                    
-                    return {
-                        questionText: q.questionText,
-                        competency: q.competency,
-                        userAnswerText: userAnswerOption ? userAnswerOption.text : 'Tidak Dijawab',
-                        score: userAnswerOption ? userAnswerOption.score : 0,
-                        correctAnswerText: correctAnswerOption ? correctAnswerOption.text : 'N/A',
-                        explanation: correctAnswerOption ? correctAnswerOption.explanation : 'Tidak ada penjelasan.'
-                    };
-                });
-                setResults(calculated);
             };
 
             // Komponen untuk layar riwayat dihilangkan karena tidak ada login
@@ -857,8 +1463,8 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
-    <footer class="fixed bottom-0 left-0 w-full bg-gray-700 text-white text-center p-2 text-sm">
-        Aplikasi ini hanya untuk pembelajaran, tidak menjamin soal keluar saat tes
+	<footer class="fixed bottom-0 left-0 w-full bg-gray-700 text-white text-center p-2 text-sm">
+        Aplikasi ini hanya untuk pembelajaran, tidak menjamin soal keluar saat tes - Kantah Fakfak
     </footer>
 </body>
 </html>
